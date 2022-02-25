@@ -1,6 +1,6 @@
 //
 //  squeue.cpp
-//  
+//
 //
 //  Created by KD on 17.01.21.
 //  Extended on 17.02.22.
@@ -10,10 +10,11 @@
 #include <iostream>
 #include <cstdlib>
 #include "squeue.h"
-using std::cout;
 using std::cin;
+using std::cout;
 
-template<class T> stack<T>::stack(int size)
+template <class T>
+stack<T>::stack(int size)
 {
     maxsize = size;
     if (size < 10)
@@ -24,22 +25,25 @@ template<class T> stack<T>::stack(int size)
     reprarray = new T[maxsize];
 }
 
-//template<class T> stack<T>::~stack()
+// template<class T> stack<T>::~stack()
 //{
-//    delete[] reprarray;
-//}
+//     delete[] reprarray;
+// }
 
-template<class T> T &stack<T>::operator[](int index)
+template <class T>
+T &stack<T>::operator[](int index)
 {
     return reprarray[index - 1];
 }
 
-template<class T> int stack<T>::getheight(void)
+template <class T>
+int stack<T>::getheight(void)
 {
     return numitems;
 }
 
-template<class T> void stack<T>::push(T value)
+template <class T>
+void stack<T>::push(T value)
 {
     if (numitems == maxsize)
         allocate();
@@ -48,7 +52,8 @@ template<class T> void stack<T>::push(T value)
     return;
 }
 
-template<class T> T stack<T>::pop(void)
+template <class T>
+T stack<T>::pop(void)
 {
     if (numitems > 0)
     {
@@ -65,7 +70,8 @@ template<class T> T stack<T>::pop(void)
     }
 }
 
-template<class T> T stack<T>::top(void)
+template <class T>
+T stack<T>::top(void)
 {
     if (numitems > 0)
         return reprarray[numitems - 1];
@@ -76,7 +82,8 @@ template<class T> T stack<T>::top(void)
     }
 }
 
-template<class T> bool stack<T>::isempty(void)
+template <class T>
+bool stack<T>::isempty(void)
 {
     if (numitems > 0)
         return false;
@@ -84,7 +91,8 @@ template<class T> bool stack<T>::isempty(void)
         return true;
 }
 
-template<class T> void stack<T>::allocate(void)
+template <class T>
+void stack<T>::allocate(void)
 {
     int newsize = 2 * maxsize;
     T *newarray = new T[newsize];
@@ -98,7 +106,8 @@ template<class T> void stack<T>::allocate(void)
     return;
 }
 
-template<class T> void stack<T>::deallocate(void)
+template <class T>
+void stack<T>::deallocate(void)
 {
     int newsize = maxsize / 2;
     T *newarray = new T[newsize];
@@ -112,36 +121,38 @@ template<class T> void stack<T>::deallocate(void)
     return;
 }
 
-
-template<class T> squeue<T>::squeue(int size)
+template <class T>
+squeue<T>::squeue(int size)
 {
     stack1 = new stack<T>(size);
     stack2 = new stack<T>(size);
 }
 
-template<class T> T &squeue<T>::operator[](int index)
+template <class T>
+T &squeue<T>::operator[](int index)
 {
     if ((1 <= index) && (index <= (*stack1).getheight()))
-        return (*stack1)[index];
+        return (*stack1)[(*stack1).getheight() - index + 1];   //former: [index]
+    else if (((*stack1).getheight() < index) && (index <= (*stack1).getheight() + (*stack2).getheight()))
+    {
+        index -= (*stack1).getheight();
+        return (*stack2)[index];        //former: [index]
+    }
     else
-        if (((*stack1).getheight() < index) && (index <= (*stack1).getheight() + (*stack2).getheight()))
-        {
-            index -= (*stack1).getheight();
-            return (*stack2)[index];
-        }
-        else
-        {
-            cout << "Error: index " << index << " out of range.\n";
-            exit(EXIT_FAILURE);
-        }
+    {
+        cout << "Error: index " << index << " out of range.\n";
+        exit(EXIT_FAILURE);
+    }
 }
 
-template<class T> int squeue<T>::getlength(void)
+template <class T>
+int squeue<T>::getlength(void)
 {
     return (*stack1).getheight() + (*stack2).getheight();
 }
 
-template<class T> bool squeue<T>::isempty(void)
+template <class T>
+bool squeue<T>::isempty(void)
 {
     if (((*stack1).getheight() + (*stack2).getheight()) == 0)
         return true;
@@ -149,17 +160,41 @@ template<class T> bool squeue<T>::isempty(void)
         return false;
 }
 
-template<class T> T squeue<T>::front(void)
+template <class T>
+T squeue<T>::front(void)
 {
     // this member function needs to be implemented
+    if (stack1->getheight() == 0)
+    {
+        while (stack2->getheight() > 0)
+        {
+            T value = stack2->top(); //
+            stack2->pop();
+            stack1->push(value);
+        }
+    }
+    return (*stack1).top(); //
 }
 
-template<class T> void squeue<T>::pushback(T value)
+template <class T>
+void squeue<T>::pushback(T value)
 {
     // this member function needs to be implemented
+    stack2->push(value);
 }
 
-template<class T> T squeue<T>::popfront(void)
+template <class T>
+T squeue<T>::popfront(void)
 {
     // this member function needs to be implemented
+    if (stack1->getheight() == 0)
+    {
+        while (stack2->getheight() > 0)
+        {
+            T value = stack2->top(); //
+            stack2->pop();
+            stack1->push(value);
+        }
+    }
+    return stack1->pop();
 }
