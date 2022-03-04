@@ -284,7 +284,6 @@ template<class T> AList<T>* BList<T>::bucketsort(void)
 
 	for (int i = 1; i <= n; i++)
 	{
-
 		T value = AList<T>::getitem(i);
 		int index = (value - a) * n / (b - a);
 		if (index == n) { index = n - 1; }
@@ -297,20 +296,15 @@ template<class T> AList<T>* BList<T>::bucketsort(void)
 			//bucket.prettyprint();
 		}
 		else {
-
 			for (int j = 1; j <= bucketlist[index].getlength(); ++j) {
-
-
+				cout << j << '\n';
 				if (value < bucketlist[index].getitem(j) || j == bucketlist[index].getlength()) {
-					bucketlist[index].insert(j, value);
+					bucketlist[index].insert(j+1, value);
 					break;
 				}
-
 			}
 		}
-
 	}
-
 	for (int i = 1; i < n; i++) {
 		bucketlist[0].concat(bucketlist[i]);
 		//bucketlist[i].prettyprint();
