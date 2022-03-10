@@ -295,6 +295,8 @@ template<class T> T Listext<T>::select(int k)
     // check if the list length is k-1.
     // if so, return the judge
     if (counter+1 == k){
+        delete smrptr;
+        delete bgrptr;
         return temp;
     }
     // else, do a recurse on bigger and smaller list.
