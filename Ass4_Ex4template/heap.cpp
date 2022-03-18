@@ -287,11 +287,10 @@ int main(){
     }
     MaxHeap<int> max_heap;
     //cout<< "Fuck You!0\n";
-    max_heap.heap_sort(input_array);
+    max_heap.build_heap(input_array);
     //cout<< "Fuck You!1\n";
     cout<< max_heap.max() << "\n\n";
     max_heap.print_elements();
-    /*
     cout << "\npart2 test\n";
     //please feel free to add more test cases
     int input_list_2[15] = {55, 32, 9, 46, 15, 22, 91, 18, 29, 77, 32, 16, 791, 45, 32};
@@ -302,6 +301,5 @@ int main(){
     MaxHeap<int> max_heap_2;
     max_heap_2.heap_sort(input_array_2);
     max_heap_2.print_elements();
-    */
     return 0;
 }
