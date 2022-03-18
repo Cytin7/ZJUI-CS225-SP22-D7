@@ -187,11 +187,13 @@ template<class T> bool AList<T>::sublist(AList<T> &list)
 
 //build the max heap using elements in the input array.
 template<class T> void MaxHeap<T>::build_heap(AList<T> &array){
-    //put your code below
     AList<T>::concat(array);
     for (int idx = (AList<T>::getlength())/2;
              idx >= 1;
              idx --){
+        //sift down from the last non-leaf node,
+        //to the root of the heap.
+        //so that we can guarantee a fully defined max-heap.
         sift_down(idx,AList<T>::getlength());
     }
     return;
@@ -199,11 +201,13 @@ template<class T> void MaxHeap<T>::build_heap(AList<T> &array){
 
 //sift down the element with index i within the first num_elements elements.
 template<class T> void MaxHeap<T>::sift_down(int idx, int num_elements){
-    //put your code below
+    //We execute the sift down operation function,
+    //iff the node is not a leaf node of the heap.
     if (idx >= 1 && (idx <= num_elements / 2)){
         T parent = AList<T>::getitem(idx);
         T child;
         int idx2;
+        //put the child element as the bigger one of the children nodes
         if ((2*idx+1) <= num_elements) {
             if (AList<T>::getitem(idx * 2) >= AList<T>::getitem(idx * 2 + 1)) {
                 child = AList<T>::getitem(idx * 2);
@@ -213,9 +217,12 @@ template<class T> void MaxHeap<T>::sift_down(int idx, int num_elements){
                 idx2 = idx * 2 + 1;
             }
         }else{
+            //if there is only one child node, select the child node.
             child = AList<T>::getitem(idx * 2);
             idx2 = idx * 2;
         }
+        //if the child is bigger, then recursively execute the sift down.
+        //from idx2, which is defined in the larger child detection code above.
         if (child > parent){
             swap(idx,idx2);
             sift_down(idx2,num_elements);
@@ -230,26 +237,22 @@ template<class T> void MaxHeap<T>::sift_down(int idx, int num_elements){
 
 //sort the input array using max heap.
 template<class T> void MaxHeap<T>::heap_sort(AList<T> &array){
-    //put your code below
     build_heap(array);
-    print_elements();
-    cout<<"\n";
+    //first form a heap.
     for (int i = 1; i < array.getlength(); i++){
+        //then swap the first node to the no.(numitems - i + 1) node,
         swap(1,AList<T>::getlength()+1-i);
-        cout<<"fuck you!1\n";
-        print_elements();
-        cout<<"\n";
+        //then from first node to execute sift down
+        //in a scope of numitems - i. as the last i nodes are used
+        //to store sorted elements.
         sift_down(1,(AList<T>::getlength()-i));
-        cout<<"fuck you!2\n";
-        print_elements();
-        cout<<"\n";
     }
     return;
 }
 
 //swap elements with indices i and j.
 template<class T> void MaxHeap<T>::swap(int i, int j){
-    //the index of this array is begin by 1;
+    // the index of this array is begin by 1;
     T temp = AList<T>::getitem(i);
     AList<T>::setitem(i,AList<T>::getitem(j));
     AList<T>::setitem(j,temp);
@@ -258,7 +261,7 @@ template<class T> void MaxHeap<T>::swap(int i, int j){
 
 //return the root element. 
 template<class T> T MaxHeap<T>::max(){
-    //as heap->array[0] is a dector element, so return the array[1]
+    // so return the array[1]
     return AList<T>::getitem(1);
 }
 
@@ -273,9 +276,8 @@ template<class T> void MaxHeap<T>::print_elements(){
 
 
 int main(){
-    /*
+    // test 1 is to determine whether the code build up correct heap or not.
     cout << "\npart1 test\n";
-    //please feel free to add more test cases
     int input_list[10] = {5, 3, 9, 46, 15, 22, 91, 8, 29, 77};
     AList<int> input_array;
     for (int i=0; i<10; i++){
@@ -285,8 +287,10 @@ int main(){
     max_heap.build_heap(input_array);
     cout<< max_heap.max() << "\n\n";
     max_heap.print_elements();
+
+
+    // test 2 is to determine whether the code have right ability to correctly sort in heap.
     cout << "\npart2 test\n";
-    */
     //please feel free to add more test cases
     int input_list_2[15] = {55, 32, 9, 46, 15, 22, 91, 18, 29, 77, 32, 16, 791, 45, 32};
     AList<int> input_array_2;
@@ -296,5 +300,51 @@ int main(){
     MaxHeap<int> max_heap_2;
     max_heap_2.heap_sort(input_array_2);
     max_heap_2.print_elements();
+
+    // test 3 is to define whether the negative value affect the code.
+    cout << "\n\npart3 test\n";
+    int input_list_3[15] = {-55,-20,0,9, 10, -20, -2122,1,22,11,2,3,4,5};
+    AList<int> input_array_3;
+    for (int i=0; i<15; i++){
+        input_array_3.append(input_list_3[i]);
+    }
+    MaxHeap<int> max_heap_3;
+    max_heap_3.heap_sort(input_array_3);
+    max_heap_3.print_elements();
+
+    // test 4 5 6 is all about whether the code have right ability to correctly sort in heap.
+    cout << "\n\npart4 test\n";
+    int input_list_4[7] = {1,2,3,4,5,6,7};
+    AList<int> input_array_4;
+    for (int i=0; i<7; i++){
+        input_array_4.append(input_list_4[i]);
+    }
+
+    MaxHeap<int> max_heap_4;
+    max_heap_4.heap_sort(input_array_4);
+    max_heap_4.print_elements();
+
+    cout << "\n\npart5 test\n";
+    int input_list_5[7] = {7,6,5,4,3,2,1};
+    AList<int> input_array_5;
+    for (int i=0; i<7; i++){
+        input_array_5.append(input_list_5[i]);
+    }
+
+    MaxHeap<int> max_heap_5;
+    max_heap_5.heap_sort(input_array_5);
+    max_heap_5.print_elements();
+
+    cout << "\n\npart6 test\n";
+    int input_list_6[7] = {0,0,0,0,0,0,0};
+    AList<int> input_array_6;
+    for (int i=0; i<7; i++){
+        input_array_6.append(input_list_6[i]);
+    }
+
+    MaxHeap<int> max_heap_6;
+    max_heap_6.heap_sort(input_array_6);
+    max_heap_6.print_elements();
+
     return 0;
 }
