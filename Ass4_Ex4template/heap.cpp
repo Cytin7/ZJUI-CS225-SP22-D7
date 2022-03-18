@@ -188,37 +188,92 @@ template<class T> bool AList<T>::sublist(AList<T> &list)
 //build the max heap using elements in the input array.
 template<class T> void MaxHeap<T>::build_heap(AList<T> &array){
     //put your code below
+    //cout<< "Fuck You!0\n";
+    AList<T>::append(2147483647);
+    //cout<< "Fuck You!1\n";
+    AList<T>::concat(array);
+    //cout<< "Fuck You!2\n";
+    for (int idx = (AList<T>::getlength()+1)/2;
+             idx > 1;
+             idx --){
+        sift_down(idx,AList<T>::getlength());
+    }
+    return;
 }
 
 //sift down the element with index i within the first num_elements elements.
-template<class T> void MaxHeap<T>::sift_down(int i, int num_elements){
+template<class T> void MaxHeap<T>::sift_down(int idx, int num_elements){
     //put your code below
+    if (idx >= 2 && (2*idx-1 < num_elements)){
+        cout<< "Fuck You!0\n";
+        T parent = AList<T>::getitem(idx);
+        cout<< "Fuck You!1\n";
+        T child;
+        int idx2;
+        if (2*idx <= AList<T>::getlength()) {
+            cout<< "Fuck You!2\n";
+            if (AList<T>::getitem(idx * 2 - 1) >= AList<T>::getitem(idx * 2)) {
+                cout<< "Fuck You!3\n";
+                child = AList<T>::getitem(idx * 2 - 1);
+                idx2 = idx * 2 - 1;
+            }else{
+                cout<< "Fuck You!4\n";
+                child = AList<T>::getitem(idx * 2);
+                idx = idx * 2;
+            }
+        }else{
+            child = AList<T>::getitem(idx * 2 - 1);
+            idx2 = idx * 2 - 1;
+        }
+        if (child > parent){
+            swap(idx,idx2);
+            sift_down(idx2,num_elements);
+            return;
+        }else{
+            return;
+        }
+    }else{
+        return;
+    }
 }
 
 //sort the input array using max heap.
 template<class T> void MaxHeap<T>::heap_sort(AList<T> &array){
     //put your code below
+    build_heap(array);
+    for (int i = 1; i < array.getlength()+1; i++){
+        array.setitem(i,max());
+        AList<T>::setitem(2,AList<T>::getitem(AList<T>::getlength()));
+        AList<T>::remove(AList<T>::getlength());
+        sift_down(2,AList<T>::getlength());
+    }
+    return;
 }
 
 //swap elements with indices i and j.
 template<class T> void MaxHeap<T>::swap(int i, int j){
-    //put your code below    
+    //the index of this array is begin by 1;
+    T temp = AList<T>::getitem(i);
+    AList<T>::setitem(i,AList<T>::getitem(j));
+    AList<T>::setitem(j,temp);
+    return;
 }
 
 //return the root element. 
 template<class T> T MaxHeap<T>::max(){
-    //put your code below
+    //as heap->array[0] is a dector element, so return the array[1]
+    return AList<T>::getitem(2);
 }
 
 //print all elements in the heap in sequential order.
 template<class T> void MaxHeap<T>::print_elements(){
-
     int n = this->getlength();
     for (int i=1; i<=n; i++){
         cout << this->getitem(i) << "\n";
     }
-
+    return;
 }
+
 
 int main(){
 
@@ -230,7 +285,9 @@ int main(){
         input_array.append(input_list[i]);
     }
     MaxHeap<int> max_heap;
+    //cout<< "Fuck You!0\n";
     max_heap.build_heap(input_array);
+    //cout<< "Fuck You!1\n";
     cout<< max_heap.max() << "\n\n";
     max_heap.print_elements();
 

@@ -49,7 +49,7 @@ class MaxHeap: public AList<T>
 public:
     MaxHeap(int size = 20):AList<T>(size){}
     void build_heap(AList<T> &array);
-    void sift_down(int i, int num_elements);
+    void sift_down(int idx, int num_elements);
     void heap_sort(AList<T> &array);
     void swap(int i, int j);
     T max();
