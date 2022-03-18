@@ -188,10 +188,7 @@ template<class T> bool AList<T>::sublist(AList<T> &list)
 //build the max heap using elements in the input array.
 template<class T> void MaxHeap<T>::build_heap(AList<T> &array){
     //put your code below
-    //cout<< "Fuck You!0\n";
-    //cout<< "Fuck You!1\n";
     AList<T>::concat(array);
-    //cout<< "Fuck You!2\n";
     for (int idx = (AList<T>::getlength())/2;
              idx >= 1;
              idx --){
@@ -204,19 +201,14 @@ template<class T> void MaxHeap<T>::build_heap(AList<T> &array){
 template<class T> void MaxHeap<T>::sift_down(int idx, int num_elements){
     //put your code below
     if (idx >= 1 && (2*idx < num_elements)){
-        //cout<< "Fuck You!0\n";
         T parent = AList<T>::getitem(idx);
-        //cout<< "Fuck You!1\n";
         T child;
         int idx2;
         if ((2*idx+1) <= AList<T>::getlength()) {
-            //cout<< "Fuck You!2\n";
             if (AList<T>::getitem(idx * 2) >= AList<T>::getitem(idx * 2 + 1)) {
-                //cout<< "Fuck You!3\n";
                 child = AList<T>::getitem(idx * 2);
                 idx2 = idx * 2;
             }else{
-                //cout<< "Fuck You!4\n";
                 child = AList<T>::getitem(idx * 2 + 1);
                 idx2 = idx * 2 + 1;
             }
@@ -286,9 +278,7 @@ int main(){
         input_array.append(input_list[i]);
     }
     MaxHeap<int> max_heap;
-    //cout<< "Fuck You!0\n";
     max_heap.build_heap(input_array);
-    //cout<< "Fuck You!1\n";
     cout<< max_heap.max() << "\n\n";
     max_heap.print_elements();
     cout << "\npart2 test\n";
