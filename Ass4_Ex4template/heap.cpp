@@ -200,11 +200,11 @@ template<class T> void MaxHeap<T>::build_heap(AList<T> &array){
 //sift down the element with index i within the first num_elements elements.
 template<class T> void MaxHeap<T>::sift_down(int idx, int num_elements){
     //put your code below
-    if (idx >= 1 && (2*idx < num_elements)){
+    if (idx >= 1 && (idx <= num_elements / 2)){
         T parent = AList<T>::getitem(idx);
         T child;
         int idx2;
-        if ((2*idx+1) <= AList<T>::getlength()) {
+        if ((2*idx+1) <= num_elements) {
             if (AList<T>::getitem(idx * 2) >= AList<T>::getitem(idx * 2 + 1)) {
                 child = AList<T>::getitem(idx * 2);
                 idx2 = idx * 2;
@@ -232,13 +232,17 @@ template<class T> void MaxHeap<T>::sift_down(int idx, int num_elements){
 template<class T> void MaxHeap<T>::heap_sort(AList<T> &array){
     //put your code below
     build_heap(array);
-    for (int i = 1; i <= array.getlength(); i++){
+    print_elements();
+    cout<<"\n";
+    for (int i = 1; i < array.getlength(); i++){
         swap(1,AList<T>::getlength()+1-i);
-        for (int idx = (AList<T>::getlength())/2;
-             idx >= 1;
-             idx --){
-            sift_down(idx,AList<T>::getlength()-i);
-        }
+        cout<<"fuck you!1\n";
+        print_elements();
+        cout<<"\n";
+        sift_down(1,(AList<T>::getlength()-i));
+        cout<<"fuck you!2\n";
+        print_elements();
+        cout<<"\n";
     }
     return;
 }
@@ -269,7 +273,7 @@ template<class T> void MaxHeap<T>::print_elements(){
 
 
 int main(){
-
+    /*
     cout << "\npart1 test\n";
     //please feel free to add more test cases
     int input_list[10] = {5, 3, 9, 46, 15, 22, 91, 8, 29, 77};
@@ -282,6 +286,7 @@ int main(){
     cout<< max_heap.max() << "\n\n";
     max_heap.print_elements();
     cout << "\npart2 test\n";
+    */
     //please feel free to add more test cases
     int input_list_2[15] = {55, 32, 9, 46, 15, 22, 91, 18, 29, 77, 32, 16, 791, 45, 32};
     AList<int> input_array_2;
