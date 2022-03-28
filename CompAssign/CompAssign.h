@@ -140,11 +140,10 @@ private:
 
 // List of Records
 // ¼ÇÂ¼ÁÐ±í
-class RecordList
+class RecordList:public RecordNode
 {
 protected:
 	int length;
-	RecordNode* dummy;
 
 public:
 	RecordList();
@@ -152,7 +151,7 @@ public:
 
 	int getLength() const;
 	RecordList* setLength(int length);
-	RecordNode* getDummy() const;
+	//RecordNode* getDummy() const;
 
 	RecordList* deepcopy() const;
 	void printRecords() const;

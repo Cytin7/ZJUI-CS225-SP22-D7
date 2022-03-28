@@ -4,8 +4,8 @@
 RecordList::RecordList()
 {
 	this->length = 0;
-	this->dummy->setForward(this->dummy);
-	this->dummy->setBackward(this->dummy);
+	this->setForward(this);
+	this->setBackward(this);
 }
 
 RecordList::~RecordList()
@@ -16,10 +16,10 @@ int RecordList::getLength() const
 {
 	return this->length;
 }
-RecordNode* RecordList::getDummy() const
-{
-	return this->dummy;
-}
+//RecordNode* RecordList::getDummy() const
+//{
+//	return this;
+//}
 
 RecordList* RecordList::setLength(int length)
 {
@@ -30,7 +30,7 @@ RecordList* RecordList::setLength(int length)
 RecordList* RecordList::deepcopy() const
 {
 	RecordList new_list;
-	RecordNode* node = this->dummy->getForward();
+	RecordNode* node = this->getForward();
 	while (!node->is_dummy())
 	{
 		new_list.append(node->deepcopy());
@@ -40,21 +40,21 @@ RecordList* RecordList::deepcopy() const
 
 void RecordList::printRecords() const
 {
-	RecordNode* node = this->dummy;
+	RecordNode* node = this->forward;
 	for (int i = this->getLength(); i > 0; i--)
 	{
-		node = node->getForward();
 		node->printRecord();
+		node = node->getForward();
 	}
 }
 
 // Add the new node to the end of the list
 RecordNode* RecordList::append(RecordNode* new_node)
 {
-	new_node->setBackward(this->dummy->getBackward());
-	new_node->setForward(this->dummy);
-	this->dummy->getBackward()->setForward(new_node);
-	this->dummy->setBackward(new_node);
+	new_node->setBackward(this->getBackward());
+	new_node->setForward(this);
+	this->getBackward()->setForward(new_node);
+	this->setBackward(new_node);
 	this->length += 1;
 	return new_node;
 }
@@ -67,15 +67,15 @@ RecordNode* RecordList::get(int k) const
 		cout << "Error: get(k) index out of range" << endl;
 		return NULL;
 	}
-	RecordNode* node = this->dummy;
+	RecordNode* node = this->getForward();
 	for (int i = k; i > 0; i--)
 	{
-		node = node->getForward();
 		if (node->is_dummy())
 		{
 			cout << "Error: get(k) index out of range" << endl;
 			return NULL;
 		}
+		node = node->getForward();
 	}
 	return node;
 }
@@ -88,7 +88,7 @@ RecordNode* RecordList::insert(RecordNode* insert_node, int k)
 		cout << "Error: insert(node,k) index out of range" << endl;
 		return NULL;
 	}
-	RecordNode* node = this->dummy;
+	RecordNode* node = this;
 	for (int i = k; i > 0; i--)
 	{
 		node = node->getForward();
@@ -125,7 +125,7 @@ void RecordList::delete_node(RecordNode* node)
 RecordList* RecordList::operator*(RecordList* list2)
 {
 	RecordList sum_list;
-	RecordNode* node = this->dummy;
+	RecordNode* node = this;
 	for (int i = this->length; i > 0; i--)
 	{
 		node = node->getForward();
@@ -136,7 +136,7 @@ RecordList* RecordList::operator*(RecordList* list2)
 		}
 		sum_list.append(node);
 	}
-	node = list2->dummy;
+	node = list2;
 	for (int i = list2->length; i > 0; i--)
 	{
 		node = node->getForward();
@@ -153,7 +153,7 @@ RecordList* RecordList::operator*(RecordList* list2)
 // extend another list to this list
 RecordList* RecordList::extend(RecordList* list2)
 {
-	RecordNode* node = list2->dummy;
+	RecordNode* node = list2;
 	for (int i = list2->length; i > 0; i--)
 	{
 		node = node->getForward();

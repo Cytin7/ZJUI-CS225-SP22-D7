@@ -21,12 +21,12 @@ void Database::submit(Database* center)
 
 void Database::merge()
 {
-	this->old_records->getDummy()->getBackward()->setForward(this->new_records->getDummy()->getForward());
-	this->old_records->getDummy()->setBackward(this->new_records->getDummy()->getBackward());
-	this->new_records->getDummy()->getForward()->setBackward(this->old_records->getDummy()->getBackward());
-	this->new_records->getDummy()->getBackward()->setForward(this->old_records->getDummy());
-	this->new_records->getDummy()->setForward(this->new_records->getDummy());
-	this->new_records->getDummy()->setBackward(this->new_records->getDummy());
+	this->old_records->getBackward()->setForward(this->new_records->getForward());
+	this->old_records->setBackward(this->new_records->getBackward());
+	this->new_records->getForward()->setBackward(this->old_records->getBackward());
+	this->new_records->getBackward()->setForward(this->old_records);
+	this->new_records->setForward(this->new_records);
+	this->new_records->setBackward(this->new_records);
 	this->old_records->setLength(this->old_records->getLength() + this->new_records->getLength());
 	this->new_records->setLength(0);
 }
