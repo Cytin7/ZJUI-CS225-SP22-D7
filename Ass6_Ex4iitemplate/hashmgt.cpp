@@ -20,8 +20,11 @@ int main()
     hashmap<int,char> hashmap;
     hashmap.add(1,'h');
     hashmap.display();
-    hashmap.member(1,'j');
-    cout << hashmap.retrieve(1)<<std::endl;
+    if (hashmap.member(1,'j') == false){
+        printf("The member index is not in the map. Test pass.\n");
+    }
+    hashmap.remove(1);
+    cout << hashmap.retrieve(1) << std::endl;
     hashmap.add(1,'j');
     return 0;
 }

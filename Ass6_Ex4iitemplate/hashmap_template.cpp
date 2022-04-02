@@ -111,21 +111,31 @@ template<class K, class T> void hashmap<K,T>::remove(K key)
     // truly the key we put in.
     // the standard is that we fetch the key value,
     // if not same, then find the "next" position
-    while (*keyarray[index] != key){
+    int times = 0;
+    while (*keyarray[index] != key && times < maxsize){
         index = (index + 1) % this->maxsize;
         // linear probing method in hashing.
+        times ++;
+    }
+    // ACTUALLY as we cannot define
+    // that if there is truly a key the same as input
+    // so, we define a method to check if we loop through every entry.
+    if (times == maxsize && *keyarray[index] != key){
+        cout << "Remove error: There is no such a key.\n";
+        return;
+    }else{
+        this->keyarray[index] = pt_nil;
+        float fill_factor = numitems/maxsize;
+        if (fill_factor <= 0.25){
+            rehash(maxsize/2);
+            return;
+        }else{
+            return;
+        }
     }
     // as the logic to check the element is:
     // keyarray[index-1] != pt_nil,
     // so just let the keyarray[index-1] = pt_nil.
-    this->keyarray[index] = pt_nil;
-    float fill_factor = numitems/maxsize;
-    if (fill_factor <= 0.25){
-        rehash(maxsize/2);
-        return;
-    }else{
-        return;
-    }
 }
 
 template<class K, class T> T hashmap<K,T>::retrieve(K key)
@@ -139,6 +149,10 @@ template<class K, class T> T hashmap<K,T>::retrieve(K key)
     // truly the key we put in.
     // the standard is that we fetch the key value,
     // if not same, then find the "next" position
+    if (numitems == 0){
+        cout << "there is no such a value in this hashmap.\n";
+        exit(0);
+    }
     int times = 0;
     while (*keyarray[index] != key && times < maxsize){
         index = (index + 1) % this->maxsize;
@@ -223,6 +237,7 @@ template<class K, class T> void hashmap<K,T>::rehash(int newsize)
     keyarray = newkeyarray;   // make the new hashmap
     reprarray = newarray;
     maxsize = newsize;   // update the size
+    return;
 }
 
 template<class K, class T> void hashmap<K,T>::display(void) // only for test purposes
