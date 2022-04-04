@@ -1,14 +1,26 @@
 #pragma once
+#include <stdio.h>
 #include <iostream>
 #include <ctime>
+#include <conio.h>
 using namespace std;
 
 // global variables
 time_t current_time = time(NULL);
 
 // functions that will be used
+tm time_diff(time_t* time1, time_t* time2); // calculate time difference
+string genProfRome(const int& prof);        // generate Rome format of profession data
 
 
+/* ---------------------------------------
+ * class: Record
+ *
+ * created by CYTIN
+ *
+ * Introduction:
+ *	Store all data of a recoord.
+ * --------------------------------------- */
 class Record
 {
 	// variables
@@ -26,17 +38,18 @@ protected:
 	int risk;                  // risk status (0~3)
 	time_t deadline;           // deadline 
 	int priority;              // priority, used for the priority queue
-	int reg_place;             // register place code
-    time_t reg_time;           // regist time
+	int registry;              // register place code
+	time_t reg_time;           // time registered
 	time_t appoint_time;       // appointment time
 	int hospital;              // appointed hospital code
 public:
+	// construct and destruct function
 	Record();
 	~Record();
 
 	// set Record data
-	void setRecordData(int id, string name, string address, string phone, string wechat, string email, time_t birth, int profession, int risk, int reg_place);
-	// set Record data by part
+	void setRecordData(int id, string name, string address, string phone, string wechat, string email, time_t birth, int profession, int risk, int registry);
+	// set Record data for each variable
 	void setRecordID(int id);
 	void setRecordName(string name);
 	void setRecordAddress(string address);
@@ -46,11 +59,49 @@ public:
 	void setRecordBirth(time_t birth);
 	void setRecordProfession(int profession);
 	void setRecordRisk(int risk);
-	void setRecordRegisterPlace(int reg_place);
-    void setRecordRegisterTime(time_t reg_time);
-private:
-
+	void setRecordRegistry(int registry);
+	void setRecordRegisterTime(time_t reg_time);
 };
+
+/* ---------------------------------------
+ * class: ListNode
+ *
+ * created by CYTIN
+ *
+ * Introduction:
+ *	The basis of queues.
+ *  Both registry and
+ * --------------------------------------- */
+class ListNode : public Record
+{
+protected:
+	ListNode* forward;
+	ListNode* backward;
+	bool is_dummy;
+	int length;
+
+public:
+	// construct and destruct function
+	ListNode();
+	~ListNode();
+
+	// For the list(dummy node):
+public:
+	// Set the node as the dummy node of the list
+	void setDummy();
+
+	// append a new node to the list
+	void append(ListNode* new_node);
+
+	// delete the node from the list
+	void deleteNode();
+	void deleteNode(ListNode* node);
+
+	// concat two lists
+	void concat(ListNode* list2);
+};
+
+
 //
 // FibHeap Created By FDChick 17:14 4.4.22.
 //
