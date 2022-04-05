@@ -178,7 +178,7 @@ void FibHeap::Insert(FibNode* node){
 
 // 移除斐波那契堆中的最小节点
 void FibHeap::removeMin(){
-    if (min==NULL){
+    if ( min == NULL ){
         return;
     }
     FibNode* child = NULL;
@@ -241,21 +241,27 @@ void FibHeap::combine(FibHeap *other){
     }
 }
 // 将斐波那契堆中的node更新为newkey
-void update(FibNode* node, int key){
-    if(key < node->get_priority_number()){
+void FibHeap::update(FibNode* node){
+    if ( min == NULL || node ==  NULL ){
+        return;
+    }
+    int temp = node->get_priority_number();
+    node->calc_priority_number();
+    int key = node->get_priority_number();
+    if ( key < temp ){
         decrease(node, key);
-    }else if(key > node->get_priority_number()){
+    }else if ( key > temp ){
         increase(node, key);
     }else{
         cout << "Update Error: No need to update." << endl;
     }
 }
 // 更新斐波那契堆id为id的键值为key
-void FibHeap::update(int id, int key){
+void FibHeap::update(int id){
     FibNode<T> *node;
     node = idsearch(id);
     if (node!=NULL) {
-        update(node, newkey);
+        update(node);
     }
 }
 // 删除键值为key的节点
@@ -312,11 +318,11 @@ void FibHeap::link_Node(FibNode* node, FibNode* root){
     // 将node从双链表中移除
     removeNode(node);
     // 将node设为root的孩子
-    if (root->getChild() == NULL)
+    if (root->getChild() == NULL){
         root->setChild(node);
-    else
+    }else{
         Add_Node(node, root->getChild());
-
+    }
     node->setParent(root);
     root.degree++;
     node->mark_status = false;
@@ -345,52 +351,98 @@ void FibHeap::Consolidate(){
         cons[i] = NULL;
     }
     while (min != NULL){
-        x = extractMin();                // 取出堆中的最小树(最小节点所在的树)
+        x = Pop_Min();                // 取出堆中的最小树(最小节点所在的树)
         d = x->degree;                    // 获取最小树的度数
         // cons[d] != NULL，意味着有两棵树(x和y)的"度数"相同。
         while (cons[d] != NULL){
             y = cons[d];                // y是"与x的度数相同的树"
-            if (x->key > y->key)        // 保证x的键值比y小
+            if (x->get_priority_number() > y->get_priority_number()){
                 swap(x, y);
-
-            link(y, x);    // 将y链接到x中
+            }
+            link_Node(y, x);    // 将y链接到x中
             cons[d] = NULL;
             d++;
         }
         cons[d] = x;
     }
     min = NULL;
-
     // 将cons中的结点重新加到根表中
-    for (i=0; i<D; i++)
-    {
-        if (cons[i] != NULL)
-        {
-            if (min == NULL)
+    for (i=0; i<D; i++){
+        if (cons[i] != NULL){
+            if (min == NULL){
                 min = cons[i];
-            else
-            {
-                addNode(cons[i], min);
-                if ((cons[i])->key < min->key)
+            }else{
+                Add_Node(cons[i], min);
+                if ((cons[i])->get_priority_number()< min->get_priority_number()){
                     min = cons[i];
+                }
             }
         }
     }
 }
 // 将node从父节点parent的子链接中剥离出来，并使node成为"堆的根链表"中的一员。
-void FibHeap::cut(FibNode *node, FibNode *parent);
+void FibHeap::cut(FibNode *node, FibNode *parent){
+
+}
 // 对节点node进行"级联剪切"
-void FibHeap::cascadingCut(FibNode *node) ;
+void FibHeap::cascadingCut(FibNode *node){
+
+}
 // 将斐波那契堆中节点node的值减少为key
-void FibHeap::decrease(FibNode *node, int key);
+void FibHeap::decrease(FibNode *node, int key){
+    FibNode *parent = node->parent;
+    if (parent!=NULL && key < parent->get_priority_number()){
+        // 将node从父节点parent中剥离出来，并将node添加到根链表中
+        cut(node, parent);
+        cascadingCut(parent);
+    }
+    if (key < min->get_priority_number()){
+        min = node;
+    }
+}
 // 将斐波那契堆中节点node的值增加为key
-void FibHeap::increase(FibNode *node, int key);
+void FibHeap::increase(FibNode *node, int key){
+    FibNode *child, *parent, *right;
+    // 将node每一个儿子(不包括孙子,重孙,...)都添加到"斐波那契堆的根链表"中
+    while (node->getChild() != NULL){
+        child = node->getChild();
+        removeNode(child);
+        if ( child->getRightSib() == child ){
+            node->setChild(NULL);
+        }else{
+            node->setChild(child->getRightSib());
+        }
+        Add_Node(child, min);       // 将child添加到根链表中
+        child->setParent(NULL);
+    }
+    node->degree = 0;
+    // 如果node不在根链表中，
+    //     则将node从父节点parent的子链接中剥离出来，
+    //     并使node成为"堆的根链表"中的一员，
+    //     然后进行"级联剪切"
+    // 否则，则判断是否需要更新堆的最小节点
+    parent = node->parent;
+    if(parent != NULL){
+        cut(node, parent);
+        cascadingCut(parent);
+    }else if ( min == node ){
+        right = node->getRightSib();
+        while(right != node){
+            if(key > right->get_priority_number()){
+                min = right;
+            }
+            right = right->getRightSib();
+        }
+    }
+}
 // 在最小堆root中查找键值为key的节点
-FibNode* FibHeap::search(FibNode *root, int key);
-// 在斐波那契堆中查找键值为key的节点
-FibNode* FibHeap::search(int key);
-// 在最小堆root中查找键值为key的节点
-FibNode* FibHeap::idsearch(int id);
+FibNode* FibHeap::idsearch(int id){
+    FibNode* temp = min;
+    do {
+        temp = temp->getRightSib();
+        if(temp)
+    } while ( min != temp )
+}
 // 删除结点node
 void FibHeap::remove(FibNode *node);
 // 销毁斐波那契堆

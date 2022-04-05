@@ -76,7 +76,7 @@ private:
 //
 // Class FibNode of the FibHeap.
 
-class FibNode :public Record{
+class FibNode :protected Record{
 public:
     FibNode();
     ~FibNode();
@@ -140,9 +140,9 @@ public:
     // 将other合并到当前堆中
     void combine(FibHeap *other);
     // 将斐波那契堆中的node更新为newkey
-    void update(FibNode* node, int key);
+    void update(FibNode* node);
     // 更新斐波那契堆的节点node的键值为key
-    void update(int id, int key);
+    void update(int id);
     // 删除结点node
     void remove(FibNode *node);
     // 打印斐波那契堆!
@@ -173,10 +173,6 @@ public:
     void decrease(FibNode *node, int key);
     // 将斐波那契堆中节点node的值增加为key
     void increase(FibNode *node, int key);
-    // 在最小堆root中查找键值为key的节点
-    FibNode* search(FibNode *root, int key);
-    // 在斐波那契堆中查找键值为key的节点
-    FibNode* search(int key);
     // 遍历查找键值为key的节点
     FibNode* idsearch(int id);
 private:
