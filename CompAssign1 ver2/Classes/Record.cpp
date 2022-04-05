@@ -122,3 +122,72 @@ void Record::setRecordRegisterTime(time_t reg_time)
 {
 	this->reg_time = reg_time;
 }
+
+int Record::getRecordID()
+{
+	return this->id;
+}
+string Record::getRecordName()
+{
+	return this->name;
+}
+string Record::getRecordAddress()
+{
+	return this->address;
+}
+string Record::getRecordPhone()
+{
+	return this->phone;
+}
+string Record::getRecordWeChat()
+{
+	return this->wechat;
+}
+string Record::getRecordEmail()
+{
+	return this->email;
+}
+time_t Record::getRecordBirth()
+{
+	return this->birth;
+}
+int Record::getRecordProfession()
+{
+	return this->profession;
+}
+int Record::getRecordRisk()
+{
+	return this->risk;
+}
+int Record::getRecordRegistry()
+{
+	return this.registry;
+}
+time_t Record::getRecordRegisterTime()
+{
+	return this.reg_time;
+}
+int Record::getRecordAge()
+{
+	return this->age;
+}
+int Record::getRecordAgeGroup()
+{
+	return this->age_group;
+}
+time_t Record::fetRecordDeadline()
+{
+	return this->deadline;
+}
+int Record::getRecordPriority()
+{
+	return this->priority;
+}
+time_t Record::getRecordAppointTime()
+{
+	return this->appoint_time;
+}
+int Record::getRecordHospital()
+{
+	return this->hospital;
+}

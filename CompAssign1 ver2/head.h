@@ -26,7 +26,7 @@ protected:
     int risk;                  // risk status (0~3)
     time_t deadline;           // deadline
     int priority;              // priority, used for the priority queue
-    int reg_place;             // register place code
+    int registry;             // register place code
     time_t reg_time;           // regist time
     time_t appoint_time;       // appointment time
     int hospital;              // appointed hospital code
@@ -35,7 +35,7 @@ public:
     ~Record();
 
     // set Record data
-    void setRecordData(int id, string name, string address, string phone, string wechat, string email, time_t birth, int profession, int risk, int reg_place);
+    void setRecordData(int id, string name, string address, string phone, string wechat, string email, time_t birth, int profession, int risk, int registry);
     // set Record data by part
     void setRecordID(int id);
     void setRecordName(string name);
@@ -46,8 +46,27 @@ public:
     void setRecordBirth(time_t birth);
     void setRecordProfession(int profession);
     void setRecordRisk(int risk);
-    void setRecordRegisterPlace(int reg_place);
+    void setRecordRegistry(int registry);
     void setRecordRegisterTime(time_t reg_time);
+
+    int getRecordID();
+    string getRecordName();
+    string getRecordAddress();
+    string getRecordPhone();
+    string getRecordWeChat();
+    string getRecordEmail();
+    time_t getRecordBirth();
+    int getRecordAge();
+    int getRecordAgeGroup();
+    int getRecordProfession();
+    int getRecordRisk();
+    int getRecordRegistry();
+    int getRecordRegisterTime();
+    time_t fetRecordDeadline();
+    int getRecordPriority();
+    time_t getRecordAppointTime();
+    int getRecordHospital();
+
 private:
 
 };
