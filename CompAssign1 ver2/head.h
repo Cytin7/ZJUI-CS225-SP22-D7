@@ -76,10 +76,14 @@ public:
     // Pointing to Parent and one of the Child node
     FibNode* getParent();
     FibNode* getChild();
-    // using when deleting node in the FibHeap.
-    bool is_marked();
     // 计算优先级的值
+    int get_priority_number();
     void calc_priority_number();
+    int getdegree();
+    // The degree of the node
+    int degree;
+    // using when deleting node in the FibHeap.
+    bool mark_status;
 private:
     // FibHeap node struct
     // Created by FDChick.
@@ -90,10 +94,6 @@ private:
     // Pointing to Parent and one of the Child node
     FibNode* Parent;
     FibNode* Child;
-    // using when deleting node in the FibHeap.
-    bool mark_status;
-    // The degree of the node
-    int degree;
 };
 
 //
@@ -104,41 +104,32 @@ public:
     // construct & deconstruct
     FibHeap();
     ~FibHeap();
-    void Insert(FibNode* node);
-    // 移除斐波那契堆中的最小节点
-    void removeMin();
-    // 将other合并到当前堆中
-    void combine(FibHeap *other);
-    // 获取斐波那契堆中最小键值，并保存到pkey中；成功返回true，否则返回false。
-    bool minimum(int *pkey);
-    // 将斐波那契堆中键值oldkey更新为newkey
-    void update(int oldkey, int newkey);
-    // 删除键值为key的节点
-    void remove(int key);
-    // 斐波那契堆中是否包含键值key
-    bool contains(int key);
-    // 打印斐波那契堆
-    void print();
-    // 销毁
-    void destroy();
-
-private:
+    // 移除某个节点出双链表
+    void removeNode(FibNode *node);
     // Operations for insertion.
     // To insert the new node just before the root linked list.
     // Then compare min and this node,
     // if the node is smaller,
     // then refresh the min to be the insert node.
-
     /* The Fib_Node_Add is used to complete the linked list operation.
      * And the Insert is truly insertion. */
     void Add_Node(FibNode* node, FibNode* root);
-
-    // Operations for Concat.
-    // to put one of the root linked list
-    // to the current root linked list.
-    // This is the same as to concat two double linked list.
-    void Concat_Node(FibNode* node1, FibNode* node2);
-    void Union_Heap(FibHeap* heap);
+    // 通过节点指针插入节点
+    void Insert(FibNode* node);
+    // 移除斐波那契堆中的最小节点
+    void removeMin();
+    // 将other合并到当前堆中
+    void combine(FibHeap *other);
+    // 将斐波那契堆中的node更新为newkey
+    void update(FibNode* node, int key);
+    // 更新斐波那契堆的节点node的键值为key
+    void update(int id, int key);
+    // 删除结点node
+    void remove(FibNode *node);
+    // 打印斐波那契堆!
+    void print();
+    // 销毁
+    void destroy();
 
     // Operation to pop out the min node.
     // Directly to connect the min-node's sub-tree in to root list.
@@ -163,16 +154,13 @@ private:
     void decrease(FibNode *node, int key);
     // 将斐波那契堆中节点node的值增加为key
     void increase(FibNode *node, int key);
-    // 更新斐波那契堆的节点node的键值为key
-    void update(FibNode *node, int key);
     // 在最小堆root中查找键值为key的节点
     FibNode* search(FibNode *root, int key);
     // 在斐波那契堆中查找键值为key的节点
     FibNode* search(int key);
     // 遍历查找键值为key的节点
     FibNode* idsearch(int id);
-    // 删除结点node
-    void remove(FibNode *node);
+private:
     // 销毁斐波那契堆
     void destroyNode(FibNode *node);
     // 打印斐波那契堆
