@@ -103,19 +103,19 @@ public:
     FibHeap();
     ~FibHeap();
     // 新建key对应的节点，并将其插入到斐波那契堆中
-    void insert(T key);
+    void insert(int key);
     // 移除斐波那契堆中的最小节点
     void removeMin();
     // 将other合并到当前堆中
     void combine(FibHeap<T> *other);
     // 获取斐波那契堆中最小键值，并保存到pkey中；成功返回true，否则返回false。
-    bool minimum(T *pkey);
+    bool minimum(int *pkey);
     // 将斐波那契堆中键值oldkey更新为newkey
-    void update(T oldkey, T newkey);
+    void update(int oldkey, int newkey);
     // 删除键值为key的节点
-    void remove(T key);
+    void remove(int key);
     // 斐波那契堆中是否包含键值key
-    bool contains(T key);
+    bool contains(int key);
     // 打印斐波那契堆
     void print();
     // 销毁
@@ -160,19 +160,19 @@ private:
     // 对节点node进行"级联剪切"
     void cascadingCut(FibNode *node) ;
     // 将斐波那契堆中节点node的值减少为key
-    void decrease(FibNode *node, T key);
+    void decrease(FibNode *node, int key);
     // 将斐波那契堆中节点node的值增加为key
-    void increase(FibNode *node, T key);
+    void increase(FibNode *node, int key);
     // 更新斐波那契堆的节点node的键值为key
-    void update(FibNode *node, T key);
+    void update(FibNode *node, int key);
     // 在最小堆root中查找键值为key的节点
-    FibNode* search(FibNode *root, T key);
+    FibNode* search(FibNode *root, int key);
     // 在斐波那契堆中查找键值为key的节点
-    FibNode* search(T key);
+    FibNode* search(int key);
     // 删除结点node
     void remove(FibNode *node);
     // 销毁斐波那契堆
-    void destroyNode(FibNode<T> *node);
+    void destroyNode(FibNode *node);
 
     // some characters.
     int numitems;
