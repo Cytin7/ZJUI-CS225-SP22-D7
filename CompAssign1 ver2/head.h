@@ -1,26 +1,14 @@
 #pragma once
-#include <stdio.h>
 #include <iostream>
 #include <ctime>
-#include <conio.h>
 using namespace std;
 
 // global variables
 time_t current_time = time(NULL);
 
 // functions that will be used
-tm time_diff(time_t* time1, time_t* time2); // calculate time difference
-string genProfRome(const int& prof);        // generate Rome format of profession data
 
 
-/* ---------------------------------------
- * class: Record
- *
- * created by CYTIN
- *
- * Introduction:
- *	Store all data of a recoord.
- * --------------------------------------- */
 class Record
 {
 	// variables
@@ -38,18 +26,17 @@ protected:
 	int risk;                  // risk status (0~3)
 	time_t deadline;           // deadline 
 	int priority;              // priority, used for the priority queue
-	int registry;              // register place code
-	time_t reg_time;           // time registered
+	int reg_place;             // register place code
+    time_t reg_time;           // regist time
 	time_t appoint_time;       // appointment time
 	int hospital;              // appointed hospital code
 public:
-	// construct and destruct function
 	Record();
 	~Record();
 
 	// set Record data
-	void setRecordData(int id, string name, string address, string phone, string wechat, string email, time_t birth, int profession, int risk, int registry);
-	// set Record data for each variable
+	void setRecordData(int id, string name, string address, string phone, string wechat, string email, time_t birth, int profession, int risk, int reg_place);
+	// set Record data by part
 	void setRecordID(int id);
 	void setRecordName(string name);
 	void setRecordAddress(string address);
@@ -59,49 +46,11 @@ public:
 	void setRecordBirth(time_t birth);
 	void setRecordProfession(int profession);
 	void setRecordRisk(int risk);
-	void setRecordRegistry(int registry);
-	void setRecordRegisterTime(time_t reg_time);
+	void setRecordRegisterPlace(int reg_place);
+    void setRecordRegisterTime(time_t reg_time);
+private:
+
 };
-
-/* ---------------------------------------
- * class: ListNode
- *
- * created by CYTIN
- *
- * Introduction:
- *	The basis of queues.
- *  Both registry and
- * --------------------------------------- */
-class ListNode : public Record
-{
-protected:
-	ListNode* forward;
-	ListNode* backward;
-	bool is_dummy;
-	int length;
-
-public:
-	// construct and destruct function
-	ListNode();
-	~ListNode();
-
-	// For the list(dummy node):
-public:
-	// Set the node as the dummy node of the list
-	void setDummy();
-
-	// append a new node to the list
-	void append(ListNode* new_node);
-
-	// delete the node from the list
-	void deleteNode();
-	void deleteNode(ListNode* node);
-
-	// concat two lists
-	void concat(ListNode* list2);
-};
-
-
 //
 // FibHeap Created By FDChick 17:14 4.4.22.
 //
@@ -133,6 +82,7 @@ private:
     // FibHeap node struct
     // Created by FDChick.
     // defining a circle sibling linked list.
+    int priority_number;
     FibNode* LeftSib;
     FibNode* RightSib;
     // Pointing to Parent and one of the Child node
@@ -152,7 +102,26 @@ public:
     // construct & distruct
     FibHeap();
     ~FibHeap();
+    // 新建key对应的节点，并将其插入到斐波那契堆中
+    void insert(T key);
+    // 移除斐波那契堆中的最小节点
+    void removeMin();
+    // 将other合并到当前堆中
+    void combine(FibHeap<T> *other);
+    // 获取斐波那契堆中最小键值，并保存到pkey中；成功返回true，否则返回false。
+    bool minimum(T *pkey);
+    // 将斐波那契堆中键值oldkey更新为newkey
+    void update(T oldkey, T newkey);
+    // 删除键值为key的节点
+    void remove(T key);
+    // 斐波那契堆中是否包含键值key
+    bool contains(T key);
+    // 打印斐波那契堆
+    void print();
+    // 销毁
+    void destroy();
 
+private:
     // Operations for insertion.
     // To insert the new node just before the root linked list.
     // Then compare min and this node,
@@ -162,7 +131,7 @@ public:
     /* The Fib_Node_Add is used to complete the linked list operation.
      * And the Insert is truly insertion. */
     void Add_Node(FibNode* node, FibNode* root);
-    void Insert(FibNode);
+    void Insert(FibNode* node);
 
     // Operations for Concat.
     // to put one of the root linked list
@@ -182,13 +151,30 @@ public:
      * the same degrees.
      */
     void link_Node(FibNode* node, FibNode* root);
+    // renew the degree.
+    void renewDegree(FibNode *parent, int degree);
     void Cons_Make();
     void Consolidate();
+    // 将node从父节点parent的子链接中剥离出来，并使node成为"堆的根链表"中的一员。
+    void cut(FibNode *node, FibNode *parent);
+    // 对节点node进行"级联剪切"
+    void cascadingCut(FibNode *node) ;
+    // 将斐波那契堆中节点node的值减少为key
+    void decrease(FibNode *node, T key);
+    // 将斐波那契堆中节点node的值增加为key
+    void increase(FibNode *node, T key);
+    // 更新斐波那契堆的节点node的键值为key
+    void update(FibNode *node, T key);
+    // 在最小堆root中查找键值为key的节点
+    FibNode* search(FibNode *root, T key);
+    // 在斐波那契堆中查找键值为key的节点
+    FibNode* search(T key);
+    // 删除结点node
+    void remove(FibNode *node);
+    // 销毁斐波那契堆
+    void destroyNode(FibNode<T> *node);
 
-    // Delete the node.
-    void Delete_Node(FibNode* node);
-
-private:
+    // some characters.
     int numitems;
     int maxDegree;
     FibNode* min;

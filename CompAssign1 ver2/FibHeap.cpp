@@ -91,37 +91,3 @@ FibNode* FibNode::getParent(){
 FibNode* FibNode::getChild(){
     return Child;
 }
-
-
-
-int FibNode::compare(FibNode* node1, FibNode* node2)  //return 1 if node1 has higher priority, return 0 otherwise.
-{
-    //The most important criterion is the profession category followed by a ranking of age groups,
-    //and further followed by data and time of the registration.
-    //1. profession category: the smaller the number, the larger the priority
-    if (node1->profession < node2->profession)
-    {
-        return 1;
-    }else if (node1->profession > node2->profession)
-    {
-        return 0;
-    }else//2. age group: the smaller the age group, the larger the priority
-    {
-        if (node1->age_group < node2->age_group)
-        {
-            return 1;
-        }else if(node1->age_group > node2->age_group)
-        {
-            return 0;
-        }else//3. time of the registration: the earlier the time, the larger the priority
-        {
-            if (node1->regist_time < node2->regist_time)
-            {
-                return 1;
-            }else
-            {
-                return 0;
-            }
-        }
-    }
-}
