@@ -1,14 +1,29 @@
 #pragma once
+#include <stdio.h>
 #include <iostream>
 #include <ctime>
+#include <conio.h>
 using namespace std;
 
 // global variables
 time_t current_time = time(NULL);
+const time_t HALF_DAY = 43200;              // half day is 43200 seconds
 
 // functions that will be used
+tm time_diff(time_t* time1, time_t* time2); // calculate time difference
+string genProfRome(const int& prof);        // generate Rome format of profession data
 
 
+
+
+/* ---------------------------------------
+ * class: Record
+ *
+ * created by CYTIN
+ *
+ * Introduction:
+ *	Store all data of a recoord.
+ * --------------------------------------- */
 class Record
 {
     // variables
@@ -36,7 +51,7 @@ public:
 
     // set Record data
     void setRecordData(int id, string name, string address, string phone, string wechat, string email, time_t birth, int profession, int risk, int registry);
-    // set Record data by part
+    // set Record data by variables
     void setRecordID(int id);
     void setRecordName(string name);
     void setRecordAddress(string address);
@@ -49,6 +64,7 @@ public:
     void setRecordRegistry(int registry);
     void setRecordRegisterTime(time_t reg_time);
 
+    // get Record data by variables
     int getRecordID();
     string getRecordName();
     string getRecordAddress();
@@ -70,6 +86,46 @@ public:
 private:
 
 };
+
+/* ---------------------------------------
+ * class: ListNode
+ *
+ * created by CYTIN
+ *
+ * Introduction:
+ *	The basis of queues.
+ *  Both registry and
+ * --------------------------------------- */
+class ListNode : public Record
+{
+protected:
+    ListNode* forward;
+    ListNode* backward;
+    bool is_dummy;
+    int length;
+
+public:
+    // construct and destruct function
+    ListNode();
+    ~ListNode();
+
+    // For the list(dummy node):
+public:
+    // Set the node as the dummy node of the list
+    void setDummy();
+
+    // append a new node to the list
+    void append(ListNode* new_node);
+
+    // delete the node from the list
+    void deleteNode();
+    void deleteNode(ListNode* node);
+
+    // concat two lists
+    void concat(ListNode* list2);
+};
+
+
 //
 // FibHeap Created By FDChick 17:14 4.4.22.
 //
