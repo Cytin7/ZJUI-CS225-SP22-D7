@@ -107,7 +107,7 @@ public:
     // 移除斐波那契堆中的最小节点
     void removeMin();
     // 将other合并到当前堆中
-    void combine(FibHeap<T> *other);
+    void combine(FibHeap *other);
     // 获取斐波那契堆中最小键值，并保存到pkey中；成功返回true，否则返回false。
     bool minimum(int *pkey);
     // 将斐波那契堆中键值oldkey更新为newkey
