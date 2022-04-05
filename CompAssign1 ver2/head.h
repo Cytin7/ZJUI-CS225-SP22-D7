@@ -78,6 +78,8 @@ public:
     FibNode* getChild();
     // using when deleting node in the FibHeap.
     bool is_marked();
+    // 计算优先级的值
+    void calc_priority_number();
 private:
     // FibHeap node struct
     // Created by FDChick.
@@ -99,11 +101,10 @@ private:
 //
 class FibHeap{
 public:
-    // construct & distruct
+    // construct & deconstruct
     FibHeap();
     ~FibHeap();
-    // 新建key对应的节点，并将其插入到斐波那契堆中
-    void insert(int key);
+    void Insert(FibNode* node);
     // 移除斐波那契堆中的最小节点
     void removeMin();
     // 将other合并到当前堆中
@@ -131,7 +132,6 @@ private:
     /* The Fib_Node_Add is used to complete the linked list operation.
      * And the Insert is truly insertion. */
     void Add_Node(FibNode* node, FibNode* root);
-    void Insert(FibNode* node);
 
     // Operations for Concat.
     // to put one of the root linked list
@@ -169,11 +169,14 @@ private:
     FibNode* search(FibNode *root, int key);
     // 在斐波那契堆中查找键值为key的节点
     FibNode* search(int key);
+    // 遍历查找键值为key的节点
+    FibNode* idsearch(int id);
     // 删除结点node
     void remove(FibNode *node);
     // 销毁斐波那契堆
     void destroyNode(FibNode *node);
-
+    // 打印斐波那契堆
+    void print(FibNode*node, FibNode*prev, int direction);
     // some characters.
     int numitems;
     int maxDegree;

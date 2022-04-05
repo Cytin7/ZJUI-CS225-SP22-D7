@@ -7,6 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c893a3b8-6159-4b13-b055-7d58ceb9e507" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CompAssign1 ver2/FibHeap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/CompAssign1 ver2/FibHeap.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CompAssign1 ver2/head.h" beforeDir="false" afterPath="$PROJECT_DIR$/CompAssign1 ver2/head.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +68,7 @@
       <workItem from="1648899234130" duration="73000" />
       <workItem from="1649070446041" duration="1156000" />
       <workItem from="1649071989878" duration="10570000" />
-      <workItem from="1649090066454" duration="3578000" />
+      <workItem from="1649090066454" duration="7853000" />
     </task>
     <servers />
   </component>
