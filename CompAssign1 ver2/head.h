@@ -132,7 +132,7 @@ public:
 //
 // Class FibNode of the FibHeap.
 
-class FibNode :protected Record{
+class FibNode :public Record{
 public:
     FibNode();
     ~FibNode();
@@ -154,11 +154,19 @@ public:
     // 计算优先级的值
     int get_priority_number();
     void calc_priority_number();
+    // Changing: priority_number
+    void priority_change();
     int getdegree();
     // The degree of the node
     int degree;
     // using when deleting node in the FibHeap.
     bool mark_status;
+    // using to figure out which heap it is.
+    // 0: Main heap
+    // 1: high risk
+    // 2: medium risk
+    // 3: withdraw
+    int status;
 private:
     // FibHeap node struct
     // Created by FDChick.

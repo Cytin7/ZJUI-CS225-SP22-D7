@@ -124,6 +124,10 @@ void FibNode::calc_priority_number()
 int FibNode::get_priority_number() {
     return priority_number;
 }
+void FibNode::priority_change(){
+    this->priority_number = -1;
+    return;
+}
 
 /*
  *
@@ -326,6 +330,7 @@ void FibHeap::link_Node(FibNode* node, FibNode* root){
     node->setParent(root);
     root.degree++;
     node->mark_status = false;
+    return;
 }
 // renew the degree.
 void FibHeap::renewDegree(FibNode *parent, int degree){
@@ -333,6 +338,7 @@ void FibHeap::renewDegree(FibNode *parent, int degree){
     if (parent->getParent() != NULL){
         renewDegree(parent->parent, degree);
     }
+    return;
 }
 void FibHeap::Cons_Make(){
     int prev = maxDegree;
@@ -341,6 +347,7 @@ void FibHeap::Cons_Make(){
         return;
     }
     cons = (FibNode**) realloc(cons, sizeof(FibHeap *) * (maxDegree + 1));
+    return;
 }
 void FibHeap::Consolidate(){
     int i, d, D;
@@ -379,14 +386,38 @@ void FibHeap::Consolidate(){
             }
         }
     }
+    return;
 }
 // 将node从父节点parent的子链接中剥离出来，并使node成为"堆的根链表"中的一员。
 void FibHeap::cut(FibNode *node, FibNode *parent){
-
+    removeNode(node);
+    renewDegree(parent, node->degree);
+    // node没有兄弟
+    if (node == node->getRightSib()){
+        parent->setChild(NULL);
+    }else{
+        parent->setChild(node->getRightSib());
+    }
+    node->setParent(NULL);
+    node->setLeftSib(node);
+    node->setRightSib(node);
+    node->mark_status = false;
+    // 将"node所在树"添加到"根链表"中
+    Add_Node(node, min);
+    return;
 }
 // 对节点node进行"级联剪切"
 void FibHeap::cascadingCut(FibNode *node){
-
+    FibNode* parent = node->getParent();
+    if (parent != NULL) {
+        if (node->mark_status == false){
+            node->mark_status = true;
+        }else{
+            cut(node, parent);
+            cascadingCut(parent);
+        }
+    }
+    return;
 }
 // 将斐波那契堆中节点node的值减少为key
 void FibHeap::decrease(FibNode *node, int key){
@@ -399,6 +430,7 @@ void FibHeap::decrease(FibNode *node, int key){
     if (key < min->get_priority_number()){
         min = node;
     }
+    return;
 }
 // 将斐波那契堆中节点node的值增加为key
 void FibHeap::increase(FibNode *node, int key){
@@ -434,17 +466,36 @@ void FibHeap::increase(FibNode *node, int key){
             right = right->getRightSib();
         }
     }
+    return;
 }
 // 在最小堆root中查找键值为key的节点
-FibNode* FibHeap::idsearch(int id){
-    FibNode* temp = min;
-    do {
-        temp = temp->getRightSib();
-        if(temp)
-    } while ( min != temp )
+FibNode* FibHeap::idsearch(FibNode* root ,int id){
+    FibNode *t = root;    // 临时节点
+    FibNode *p = NULL;    // 要查找的节点
+    if ( root == NULL ){
+        return root;
+    }
+    do{
+        if (t->getRecordID() == id){
+            p = t;
+            break;
+        }else{
+            if ((p = search(t->getChild(), id)) != NULL){
+                break;
+            }
+        }
+        t = t->getRightSib();
+    } while (t != root);
+    return p;
 }
 // 删除结点node
-void FibHeap::remove(FibNode *node);
+void FibHeap::remove(FibNode *node){
+    node->priority_change();
+    update(node);
+    removeMin();
+    node->calc_priority_number();
+    return;
+}
 // 销毁斐波那契堆
 void FibHeap::destroyNode(FibNode *node){
     FibNode* start = node;
