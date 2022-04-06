@@ -11,6 +11,8 @@ ListNode::ListNode()
 	this->last_week = NULL;
 	this->last_month = NULL;
 	this->old = NULL;
+
+	this->file = NULL;
 }
 
 ListNode::~ListNode()
@@ -28,6 +30,21 @@ ListNode* ListNode::getBackward()
 bool ListNode::isDummy()
 {
 	return this->is_dummy;
+}
+int ListNode::getLength()
+{
+	return this->length;
+}
+
+// File input and output
+void ListNode::setFile(fstream* file)
+{
+	this->file = file;
+}
+
+fstream* ListNode::getFile()
+{
+	return this->file;
 }
 
 void ListNode::setDummy()

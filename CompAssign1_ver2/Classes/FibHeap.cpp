@@ -2,7 +2,7 @@
 // Created by FDChick on 2022/4/4.
 //
 #include <iostream>
-#include "head.h"
+#include "../head.h"
 #include <ctime>
 #include <math.h>
 #include <cstdlib>
@@ -57,7 +57,7 @@ void FibNode::setLeftSib(FibNode* node) {
 //
 // void setRightSib()
 //
-void FibNode::getRightSib(FibNode* node) {
+FibNode* FibNode::getRightSib(FibNode* node) {
     this->RightSib = node;
     node->LeftSib = this;
 }
@@ -111,7 +111,7 @@ void FibNode::calc_priority_number()
 //meaning:profession   age_group    month    day
 {
     struct tm *info;
-    info = gmtime(&(this->regist_time));
+    info = gmtime(&(this->reg_time));
     int month = info->tm_mon;
     int day = info->tm_mday;
     this->priority_number = (this->profession) * 100000 + (this->age_group) * 10000 + month * 100 + day * 1;
@@ -122,6 +122,33 @@ int FibNode::get_priority_number() {
 void FibNode::priority_change(){
     this->priority_number = -1;
     return;
+}
+
+
+// Deepcopy the FibNode
+FibNode* FibNode::deepcopy()
+{
+    FibNode new_fib;
+    new_fib.address = this->address;
+    new_fib.age = this->age;
+    new_fib.age_group = this->age_group;
+    new_fib.appoint_time = this->appoint_time;
+    new_fib.birth = this->birth;
+    new_fib.deadline = this->deadline;
+    new_fib.degree = this->degree;
+    new_fib.email = this->email;
+    new_fib.hospital = this->hospital;
+    new_fib.id = this->id;
+    new_fib.name = this->name;
+    new_fib.phone = this->phone;
+    new_fib.priority = this->priority;
+    new_fib.priority_number = this->priority;
+    new_fib.profession = this->profession;
+    new_fib.registry = this->registry;
+    new_fib.reg_time = this->reg_time;
+    new_fib.risk = this->risk;
+    new_fib.status = this->status;
+    new_fib.wechat = this->wechat;
 }
 
 /*
@@ -521,3 +548,4 @@ void FibHeap::print(FibNode*node, FibNode*prev, int direction){
         direction = 2;
     } while(node != start);
 }
+

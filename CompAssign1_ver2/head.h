@@ -7,13 +7,19 @@
 using namespace std;
 
 // global variables
-time_t current_time = time(NULL);
+time_t current_time = time(NULL);           // initialize the date to current time when program starts
 const time_t HALF_DAY = 43200;              // half day is 43200 seconds
 
 // functions that will be used
+// Time Functions
 tm time_diff(time_t* time1, time_t* time2); // calculate time difference
-string genProfRome(const int& prof);        // generate Rome format of profession data
 
+time_t tm2time(int month, int day, int year, int hour = 0, int minute = 0, int second = 0);    // transform date by month day year to time stamp.
+// Print Functions
+string genProfRome(const int& prof);        // generate Rome format of profession data
+int PrintMainPage();					    // print main menu
+int PrintRegistrySetupPage();				// print registry sub menu
+int PrintHospitalSetupPage();				// print hospital sub menu
 
 
 
@@ -78,8 +84,8 @@ public:
 	int getRecordProfession();
 	int getRecordRisk();
 	int getRecordRegistry();
-	int getRecordRegisterTime();
-	time_t fetRecordDeadline();
+	time_t getRecordRegisterTime();
+	time_t getRecordDeadline();
 	int getRecordPriority();
 	time_t getRecordAppointTime();
 	int getRecordHospital();
@@ -100,18 +106,21 @@ private:
  */
 class ListNode : public Record
 {
+public:
+	// For file input and output
+	fstream* file;
 protected:
 	ListNode* forward;
 	ListNode* backward;
 	bool is_dummy;       // Bool variable, true means it is a dummy node
 	int length;          // Linked list len
 
-	// For Hospital, add this variable
+	// For Hospital, add its variable
 	int capacity;          // The maximal number a hospital can handle
 	ListNode* last_week;   // the node has been pushed last week
 	ListNode* last_month;  // the node has been pushed last month
 
-	// For Registry, add this variable
+	// For Registry, add its variable
 	ListNode* old;         // the node has been pushed to the main heaps
 
 public:
@@ -148,12 +157,14 @@ public:
 	void setLastWeek(ListNode* last_week);
 	void setLastMonth(ListNode* last_month);
 	void setOld(ListNode* old);
+	void setFile(fstream* file);
 
 	// Get registry and hospital variables
 	int getCapacity();
 	ListNode* getLastWeek();
 	ListNode* getLastMonth();
 	ListNode* getOld();
+	fstream* getFile();
 };
 
 
@@ -198,6 +209,9 @@ private:
 	// Pointing to Parent and one of the Child node
 	FibNode* Parent;
 	FibNode* Child;
+public:
+	int status;   // in which heap the node is in
+	FibNode* deepcopy();   // Added by CYTIN, deepcopy the node and return a pointer.
 };
 
 //
@@ -205,6 +219,7 @@ private:
 //
 class FibHeap {
 public:
+
 	// construct & deconstruct
 	FibHeap();
 	~FibHeap();
@@ -303,7 +318,7 @@ private:
 
 };
 
-class Registry:public PNode<ListNode>
+class Registry :public PNode<ListNode>
 {
 	fstream* input_file;
 

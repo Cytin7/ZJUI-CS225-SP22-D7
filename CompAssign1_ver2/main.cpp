@@ -2,33 +2,6 @@
 #include <fstream>
 
 
-int PrintMainPage() {
-	int key;
-	cout << "Input the key number to choose the operation:" << endl;
-	cout << "[0]\tClose the program" << endl;
-	cout << "[1]\tSet register information" << endl;
-	cout << "[]\tWithdraw Record using ID" << endl;
-	cout << "[]\tModify Record information" << endl;
-	cout << "[]\tRead file for the registry" << endl;
-	cout << "Please input the key value here:" << endl << ">>>";
-	cin >> key;
-	cout << endl;
-	return key;
-}
-
-int PrintRegistrySetupPage()
-{
-	int key;
-	cout << "Input the key number to choose the operation of registry setup:" << endl;
-	cout << "[0]\tReturn to the main page" << endl;
-	cout << "[1]\tAdd one new registry" << endl;
-	cout << "Please input the key value here:" << endl << ">>>";
-	cin >> key;
-	cout << endl;
-	return key;
-}
-
-
 int main() {
 	// record the current date for comparation
 	//int current_year;
@@ -59,12 +32,11 @@ int main() {
 	ListNode Reg2;
 	ListNode Reg3;
 
-	FibHeap* main_heap1 = new FibHeap;
-	FibHeap* main_heap2 = new FibHeap;
+	FibHeap* ddl_heap = new FibHeap;
+	FibHeap* main_heap = new FibHeap;
 	FibHeap* high_risk_heap = new FibHeap;
 	FibHeap* medium_risk_heap = new FibHeap;
 	FibHeap* withdraw_heap = new FibHeap;
-
 
 	Reg1.setDummy();
 	Reg2.setDummy();
@@ -80,10 +52,11 @@ int main() {
 		switch (input_key)
 		{
 		case 0:
+			// close the program
 			cout << "The program is closed" << endl;
 			// delete all heaps
-			delete main_heap1;
-			delete main_heap2;
+			delete ddl_heap; // deadline
+			delete main_heap; // priority
 			delete high_risk_heap;
 			delete medium_risk_heap;
 			delete withdraw_heap;
@@ -91,6 +64,8 @@ int main() {
 			return 0;
 			break;
 		case 1:
+		{
+			// Show the registry setup menu.
 			input_key2 = PrintRegistrySetupPage();
 			switch (input_key2)
 			{
@@ -102,6 +77,24 @@ int main() {
 			default:
 				break;
 			}
+			break;
+		}
+		case 2:
+		{
+			// Show the hospital setup menu
+			input_key2 = PrintHospitalSetupPage();
+			switch (input_key2)
+			{
+			case 0:
+				break;
+			case 1:
+
+				break;
+			default:
+				break;
+			}
+		}
+
 		case 9:
 		{
 			// step in in half day
@@ -133,19 +126,50 @@ int main() {
 					);
 					if (2 == node->getRecordRisk()) {
 						// 中风险代码
+						new_fibnode.status = 2;
+						medium_risk_heap->Insert(&new_fibnode);
 					}
-					else if (2 == node->getRecordRisk()) {
+					else if (3 == node->getRecordRisk()) {
 						// 高风险代码
+						new_fibnode.status = 3;
+						high_risk_heap->Insert(&new_fibnode);
 					}
 					else {
 						// 无风险或低风险代码
+						new_fibnode.status = 0;
+						main_heap->Insert(&new_fibnode);
+
+						FibNode new_fibnode2;
+						new_fibnode2.setRecordData(
+							node->getRecordID(), node->getRecordName(), node->getRecordAddress(), node->getRecordPhone(), node->getRecordWeChat(),
+							node->getRecordEmail(), node->getRecordBirth(), node->getRecordProfession(), node->getRecordRisk(), node->getRecordRegistry()
+						);
+						new_fibnode2.status = 1;
+						ddl_heap->Insert(&new_fibnode2);
+
 					}
 				}
 			}
 			{
+				// 把中风险和撤回的时间到达的插入到main
+				FibNode* fibnode;
+				fibnode = withdraw_heap->Pop_Min();
+				while (0 >= fibnode->getRecordPriority())
+				{
 
+				}
 			}
+			{
+				// Heap send data to hospitals
 
+				FibNode* fibnode;
+				fibnode = main_heap->Pop_Min();
+				while (0 >= fibnode->getRecordPriority()) {
+
+				}
+				int id = fibnode->getRecordID();
+				main_heap->remove(main_heap->idsearch(id));
+			}
 
 			// Part 3
 			if (0 == gmtime(&current_time)->tm_wday)

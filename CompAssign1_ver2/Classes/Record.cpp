@@ -161,11 +161,11 @@ int Record::getRecordRisk()
 }
 int Record::getRecordRegistry()
 {
-	return this.registry;
+	return this->registry;
 }
 time_t Record::getRecordRegisterTime()
 {
-	return this.reg_time;
+	return this->reg_time;
 }
 int Record::getRecordAge()
 {
@@ -175,7 +175,7 @@ int Record::getRecordAgeGroup()
 {
 	return this->age_group;
 }
-time_t Record::fetRecordDeadline()
+time_t Record::getRecordDeadline()
 {
 	return this->deadline;
 }
