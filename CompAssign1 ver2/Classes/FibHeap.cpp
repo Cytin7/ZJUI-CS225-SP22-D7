@@ -4,6 +4,8 @@
 #include <iostream>
 #include "head.h"
 #include <ctime>
+#include <math.h>
+#include <cstdlib>
 using namespace std;
 /*
  *
@@ -69,15 +71,9 @@ void FibNode::setChild(FibNode *node) {
     this->Child = node;
     node->Parent = this;
 }
-//
-// Mark
-// using when deleting node in the FibHeap.
-//
-bool FibNode::is_marked(){
-    return mark_status;
-}
+
 void FibNode::mark(){
-    if(is_marked()){
+    if(mark_status){
         cout << "Marking Error: The FibNode has been marked.\n"
     }else{
         mark_status = true;
@@ -188,8 +184,7 @@ void FibHeap::removeMin(){
     FibNode* child = NULL;
     FibNode* m = min;
     // 将min每一个儿子(儿子和儿子的兄弟)都添加到"斐波那契堆的根链表"中
-    while (m->getChild() != NULL)
-    {
+    while (m->getChild() != NULL){
         m->setChild(child);
         removeNode(child);
         if (child->getRightSib() == child) {
@@ -200,7 +195,6 @@ void FibHeap::removeMin(){
         Add_Node(child, min);
         child->setParent(NULL);
     }
-
     // 将m从根链表中移除
     removeNode(m);
     // 若m是堆中唯一节点，则设置堆的最小节点为NULL；
@@ -209,7 +203,7 @@ void FibHeap::removeMin(){
         min = NULL;
     }else{
         min = m->getRightSib();
-        consolidate();
+        Consolidate();
     }
     numitems--;
     delete m;
@@ -220,7 +214,10 @@ void FibHeap::combine(FibHeap *other){
         return;
     }
     if (other->maxDegree > this->maxDegree){
-        swap(*this, *other);
+        FibHeap* temp;
+        &temp = &this;
+        &this = &other;
+        &other = &temp;
     }
     // this无"最小节点"
     if((this->min) == NULL){
@@ -245,12 +242,10 @@ void FibHeap::combine(FibHeap *other){
     }
 }
 // 将斐波那契堆中的node更新为newkey
-void FibHeap::update(FibNode* node){
+void FibHeap::update(FibNode* node, int temp){
     if ( min == NULL || node ==  NULL ){
         return;
     }
-    int temp = node->get_priority_number();
-    node->calc_priority_number();
     int key = node->get_priority_number();
     if ( key < temp ){
         decrease(node, key);
@@ -260,19 +255,13 @@ void FibHeap::update(FibNode* node){
         cout << "Update Error: No need to update." << endl;
     }
 }
-// 更新斐波那契堆id为id的键值为key
-void FibHeap::update(int id){
-    FibNode<T> *node;
-    node = idsearch(id);
-    if (node!=NULL) {
-        update(node);
-    }
-}
 // 删除键值为key的节点
 void FibHeap::remove(FibNode* node){
     int m = min->get_priority_number()-1;
     decrease(node, m-1);
     removeMin();
+    node->calc_priority_number();
+    return;
 }
 // 打印斐波那契堆
 void FibHeap::print(){
@@ -328,7 +317,7 @@ void FibHeap::link_Node(FibNode* node, FibNode* root){
         Add_Node(node, root->getChild());
     }
     node->setParent(root);
-    root.degree++;
+    root->degree++;
     node->mark_status = false;
     return;
 }
@@ -364,7 +353,10 @@ void FibHeap::Consolidate(){
         while (cons[d] != NULL){
             y = cons[d];                // y是"与x的度数相同的树"
             if (x->get_priority_number() > y->get_priority_number()){
-                swap(x, y);
+                FibNode* temp;
+                &temp = &x;
+                &x = &y;
+                &y = &temp;
             }
             link_Node(y, x);    // 将y链接到x中
             cons[d] = NULL;
@@ -490,8 +482,9 @@ FibNode* FibHeap::idsearch(FibNode* root ,int id){
 }
 // 删除结点node
 void FibHeap::remove(FibNode *node){
+    int temp = node->get_priority_number();
     node->priority_change();
-    update(node);
+    update(node,temp);
     removeMin();
     node->calc_priority_number();
     return;
