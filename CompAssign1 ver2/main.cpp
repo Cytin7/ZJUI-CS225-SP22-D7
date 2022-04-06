@@ -99,7 +99,9 @@ int main() {
 			
 
 			// Part 2
-
+			{
+				// Send records from registries to heaps
+			}
 
 
 

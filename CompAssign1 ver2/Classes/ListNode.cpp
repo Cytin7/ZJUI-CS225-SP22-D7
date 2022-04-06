@@ -6,6 +6,8 @@ ListNode::ListNode()
 	this->backward = NULL;
 	this->is_dummy = false;
 	this->length = 0;
+
+	this.
 }
 
 ListNode::~ListNode()
