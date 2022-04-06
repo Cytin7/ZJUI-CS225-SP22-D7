@@ -175,8 +175,6 @@ public:
 	// Pointing to Parent and one of the Child node
 	void setParent(FibNode* node);
 	void setChild(FibNode* node);
-	// Mark
-	void mark();
 	FibNode* getLeftSib();
 	FibNode* getRightSib();
 	// Pointing to Parent and one of the Child node

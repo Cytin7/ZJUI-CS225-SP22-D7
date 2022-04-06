@@ -15,6 +15,7 @@ using namespace std;
  * FibNode
  *
  */
+
 //
 // Construct Function
 //
@@ -37,12 +38,14 @@ FibNode::FibNode(): LeftSib(this),
     // The degree of the node
     int degree = 0;
 }
+
 //
 // Deconstruct function
 //
 FibNode::~FibNode() {
     cout << "one of the FibNode is leaving us... \n";
 }
+
 //
 // void setLeftSib()
 //
@@ -50,6 +53,7 @@ void FibNode::setLeftSib(FibNode* node) {
     this->LeftSib = node;
     node->RightSib = this;
 }
+
 //
 // void setRightSib()
 //
@@ -57,6 +61,7 @@ void FibNode::getRightSib(FibNode* node) {
     this->RightSib = node;
     node->LeftSib = this;
 }
+
 //
 // void setParent()
 //
@@ -64,6 +69,7 @@ void FibNode::setParent(FibNode *node) {
     this->Parent = node;
     node->Child = this;
 }
+
 //
 // void setChild()
 //
@@ -72,13 +78,6 @@ void FibNode::setChild(FibNode *node) {
     node->Parent = this;
 }
 
-void FibNode::mark(){
-    if(mark_status){
-        cout << "Marking Error: The FibNode has been marked.\n"
-    }else{
-        mark_status = true;
-    }
-}
 FibNode* FibNode::getLeftSib(){
     return LeftSib;
 }
