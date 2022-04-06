@@ -195,7 +195,6 @@ void FibHeap::removeMin(){
         Add_Node(child, min);
         child->setParent(NULL);
     }
-
     // 将m从根链表中移除
     removeNode(m);
     // 若m是堆中唯一节点，则设置堆的最小节点为NULL；
