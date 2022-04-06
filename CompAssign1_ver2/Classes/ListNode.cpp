@@ -1,5 +1,13 @@
 #include "../head.h"
-
+/* ---------------------------------------
+ * class: ListNode.cpp
+ * 1.0
+ * created by CYTIN
+ *
+ * Introduction:
+ * The basis of queues.
+ *  Both registry and
+ * --------------------------------------- */
 ListNode::ListNode()
 {
 	this->forward = NULL;
