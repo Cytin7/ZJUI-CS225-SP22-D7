@@ -5,6 +5,7 @@
 #include "head.h"
 #include <ctime>
 #include <math.h>
+#include <cstdlib>
 using namespace std;
 /*
  *
@@ -214,7 +215,10 @@ void FibHeap::combine(FibHeap *other){
         return;
     }
     if (other->maxDegree > this->maxDegree){
-        swap(*this, *other);
+        FibHeap* temp;
+        &temp = &this;
+        &this = &other;
+        &other = &temp;
     }
     // this无"最小节点"
     if((this->min) == NULL){
@@ -350,7 +354,10 @@ void FibHeap::Consolidate(){
         while (cons[d] != NULL){
             y = cons[d];                // y是"与x的度数相同的树"
             if (x->get_priority_number() > y->get_priority_number()){
-                swap(x, y);
+                FibNode* temp;
+                &temp = &x;
+                &x = &y;
+                &y = &temp;
             }
             link_Node(y, x);    // 将y链接到x中
             cons[d] = NULL;
