@@ -7,11 +7,27 @@ ListNode::ListNode()
 	this->is_dummy = false;
 	this->length = 0;
 
-	this.
+	this->capacity = 0;
+	this->last_week = NULL;
+	this->last_month = NULL;
+	this->old = NULL;
 }
 
 ListNode::~ListNode()
 {
+}
+
+ListNode* ListNode::getForward()
+{
+	return this->forward;
+}
+ListNode* ListNode::getBackward()
+{
+	return this->backward;
+}
+bool ListNode::isDummy()
+{
+	return this->is_dummy;
 }
 
 void ListNode::setDummy()
@@ -21,6 +37,10 @@ void ListNode::setDummy()
 	this->length = 0;
 	this->forward = this;
 	this->backward = this;
+	this->capacity = 0;
+	this->last_week = this;
+	this->last_month = this;
+	this->old = this;
 }
 
 void ListNode::append(ListNode* new_node)
@@ -103,4 +123,40 @@ void ListNode::concat(ListNode* list2)
 		list2->backward = list2;
 		list2->length = 0;
 	}
+}
+
+// Set registry and hospital variables
+void ListNode::setCapacity(int capacity)
+{
+	this->capacity = capacity;
+}
+void ListNode::setLastWeek(ListNode* last_week)
+{
+	this->last_week = last_week;
+}
+void ListNode::setLastMonth(ListNode* last_month)
+{
+	this->last_month = last_month;
+}
+void ListNode::setOld(ListNode* old)
+{
+	this->old = old;
+}
+
+// Get registry and hospital variables
+int ListNode::getCapacity()
+{
+	return this->capacity;
+}
+ListNode* ListNode::getLastWeek()
+{
+	return this->last_week;
+}
+ListNode* ListNode::getLastMonth()
+{
+	return this->last_month;
+}
+ListNode* ListNode::getOld()
+{
+	return this->old;
 }
