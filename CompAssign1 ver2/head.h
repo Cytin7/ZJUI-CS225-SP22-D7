@@ -96,7 +96,8 @@ private:
  * Introduction:
  *	The basis of queues.
  *  Both registry and
- * --------------------------------------- */
+ * ---------------------------------------
+ */
 class ListNode : public Record
 {
 protected:
@@ -118,8 +119,17 @@ public:
 	ListNode();
 	~ListNode();
 
+	// For all nodes
+public:
+	ListNode* getForward();
+	ListNode* getBackward();
+	bool isDummy();
+
 	// For the list(dummy node):
 public:
+	// Get List information
+	int getLength();
+
 	// Set the node as the dummy node of the list
 	void setDummy();
 
@@ -133,7 +143,17 @@ public:
 	// concat two lists
 	void concat(ListNode* list2);
 
+	// Set registry and hospital variables
+	void setCapacity(int capacity);
+	void setLastWeek(ListNode* last_week);
+	void setLastMonth(ListNode* last_month);
+	void setOld(ListNode* old);
+
 	// Get registry and hospital variables
+	int getCapacity();
+	ListNode* getLastWeek();
+	ListNode* getLastMonth();
+	ListNode* getOld();
 };
 
 
@@ -143,7 +163,7 @@ public:
 //
 // Class FibNode of the FibHeap.
 
-class FibNode :protected Record {
+class FibNode :public Record {
 public:
 	FibNode();
 	~FibNode();

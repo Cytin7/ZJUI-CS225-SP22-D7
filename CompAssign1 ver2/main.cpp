@@ -59,7 +59,20 @@ int main() {
 	ListNode Reg2;
 	ListNode Reg3;
 
+	FibHeap* main_heap1 = new FibHeap;
+	FibHeap* main_heap2 = new FibHeap;
+	FibHeap* high_risk_heap = new FibHeap;
+	FibHeap* medium_risk_heap = new FibHeap;
+	FibHeap* withdraw_heap = new FibHeap;
 
+
+	Reg1.setDummy();
+	Reg2.setDummy();
+	Reg3.setDummy();
+
+	Reg1.setCapacity(5);
+	Reg2.setCapacity(5);
+	Reg3.setCapacity(5);
 
 	while (true)
 	{
@@ -68,6 +81,13 @@ int main() {
 		{
 		case 0:
 			cout << "The program is closed" << endl;
+			// delete all heaps
+			delete main_heap1;
+			delete main_heap2;
+			delete high_risk_heap;
+			delete medium_risk_heap;
+			delete withdraw_heap;
+
 			return 0;
 			break;
 		case 1:
@@ -92,15 +112,27 @@ int main() {
 			}
 			{
 				// read files
-				
-				
+
+
 
 			}
-			
+
 
 			// Part 2
 			{
 				// Send records from registries to heaps
+				// Send Reg1:
+				ListNode* node = &Reg1;
+				while (!node->getForward()->isDummy())
+				{
+					node = node->getForward();
+					FibNode new_fibnode;
+					new_fibnode.setRecordData(
+						node->getRecordID(), node->getRecordName(), node->getRecordAddress(), node->getRecordPhone(), node->getRecordWeChat(),
+						node->getRecordEmail(), node->getRecordBirth(), node->getRecordProfession(), node->getRecordRisk(), node->getRecordRegistry()
+					);
+
+				}
 			}
 
 
