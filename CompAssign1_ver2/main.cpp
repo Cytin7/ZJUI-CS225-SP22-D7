@@ -131,10 +131,20 @@ int main() {
 						node->getRecordID(), node->getRecordName(), node->getRecordAddress(), node->getRecordPhone(), node->getRecordWeChat(),
 						node->getRecordEmail(), node->getRecordBirth(), node->getRecordProfession(), node->getRecordRisk(), node->getRecordRegistry()
 					);
-
+					if (2 == node->getRecordRisk()) {
+						// 中风险代码
+					}
+					else if (2 == node->getRecordRisk()) {
+						// 高风险代码
+					}
+					else {
+						// 无风险或低风险代码
+					}
 				}
 			}
+			{
 
+			}
 
 
 			// Part 3
