@@ -93,7 +93,7 @@ int main() {
 			{
 				// read files
 				
-				Reg1.append();
+				
 
 			}
 			
