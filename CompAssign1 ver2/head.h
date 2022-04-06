@@ -6,9 +6,6 @@ using namespace std;
 // global variables
 time_t current_time = time(NULL);
 
-// functions that will be used
-
-
 class Record
 {
     // variables
@@ -131,6 +128,28 @@ public:
     // construct & deconstruct
     FibHeap();
     ~FibHeap();
+    void Insert(FibNode* node);
+    // 移除斐波那契堆中的最小节点
+    void removeMin();
+    // 将other合并到当前堆中
+    void combine(FibHeap *other);
+    // 将斐波那契堆中的node更新为newkey
+    void update(FibNode* node,int temp);
+    // 删除结点node
+    void remove(FibNode *node);
+    // 打印斐波那契堆!
+    void print();
+    // 销毁
+    void destroy();
+    // Operation to pop out the min node.
+    // Directly to connect the min-node's sub-tree in to root list.
+    // concat all the trees that has the same degree until
+    // there is no trees have the same degree.
+    FibNode* Pop_Min();
+
+    // 遍历查找键值为key的节点
+    FibNode* idsearch(int id);
+private:
     // 移除某个节点出双链表
     void removeNode(FibNode *node);
     // Operations for insertion.
@@ -142,27 +161,6 @@ public:
      * And the Insert is truly insertion. */
     void Add_Node(FibNode* node, FibNode* root);
     // 通过节点指针插入节点
-    void Insert(FibNode* node);
-    // 移除斐波那契堆中的最小节点
-    void removeMin();
-    // 将other合并到当前堆中
-    void combine(FibHeap *other);
-    // 将斐波那契堆中的node更新为newkey
-    void update(FibNode* node);
-    // 更新斐波那契堆的节点node的键值为key
-    void update(int id);
-    // 删除结点node
-    void remove(FibNode *node);
-    // 打印斐波那契堆!
-    void print();
-    // 销毁
-    void destroy();
-
-    // Operation to pop out the min node.
-    // Directly to connect the min-node's sub-tree in to root list.
-    // concat all the trees that has the same degree until
-    // there is no trees have the same degree.
-    FibNode* Pop_Min();
     /*
      * These Three are the operation to
      * consolidate the trees that have
@@ -181,9 +179,6 @@ public:
     void decrease(FibNode *node, int key);
     // 将斐波那契堆中节点node的值增加为key
     void increase(FibNode *node, int key);
-    // 遍历查找键值为key的节点
-    FibNode* idsearch(int id);
-private:
     // 销毁斐波那契堆
     void destroyNode(FibNode *node);
     // 打印斐波那契堆
