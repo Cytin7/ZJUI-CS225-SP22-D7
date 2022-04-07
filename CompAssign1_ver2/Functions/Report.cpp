@@ -1,4 +1,3 @@
-#pragma once
 #include<iostream>
 #include"../head.h"
 
@@ -27,11 +26,11 @@ using std::cout;
  *
  *		
  */
-int    name_sort(ListNode *treat_list, ListNode *risk_list,ListNode *waiting, ListNode *left_list);
-int    age_sort(ListNode *treat_list, ListNode *risk_list,ListNode *waiting, ListNode *left_list);      
-int    profession_sort(ListNode *treat_list, ListNode *risk_list,ListNode *waiting, ListNode *left_list);      
-void List_report(ListNode *List, string file_name);
-int week_report(ListNode *treat_list, ListNode *risk_list,ListNode *waiting, ListNode *left_list, int week);
+int    name_sort(ListNode &treat_list, ListNode &risk_list,ListNode &waiting, ListNode &left_list);
+int    age_sort(ListNode &treat_list, ListNode &risk_list,ListNode &waiting, ListNode &left_list);      
+int    profession_sort(ListNode &treat_list, ListNode &risk_list,ListNode &waiting, ListNode &left_list);      
+void List_report(ListNode &List, string file_name);
+int week_report(ListNode &treat_list, ListNode &risk_list,ListNode &waiting, ListNode &left_list, int week);
 string DatetimeToString(time_t time)
 {
     tm *tm_ = localtime(&time);                // 将time_t格式转换为tm结构体
@@ -74,7 +73,7 @@ string DatetimeToString(time_t time)
 //   SIDE EFFECTS: mark each graph vertex in g with 
 //           a minimap bit number based on p
 //
-int week_report(ListNode *treat_list, ListNode *risk_list,ListNode *waiting, ListNode *left_list, int week){
+int week_report(ListNode &treat_list, ListNode &risk_list,ListNode &waiting, ListNode &left_list, int week){
     int option ,end;
     end = 1;
     cout<<endl<< "Choose the output mode "<<endl;
@@ -88,18 +87,17 @@ int week_report(ListNode *treat_list, ListNode *risk_list,ListNode *waiting, Lis
     {
     
     case 1:
-        int sign = name_sort(treat_list, risk_list, waiting, left_list);
+        sign = name_sort(treat_list, risk_list, waiting, left_list);
         
         break;
     case 2:
-        int sign = age_sort(treat_list, risk_list, waiting, left_list);
+        sign = age_sort(treat_list, risk_list, waiting, left_list);
 
         break;
     case 3:
-        int sign = profession_sort(treat_list, risk_list, waiting, left_list);
+        sign = profession_sort(treat_list, risk_list, waiting, left_list);
     
         break;
-    case 0:
 
     default:
         cout<< "Default Mode Start, printing report without sorting."<<endl;
@@ -135,7 +133,7 @@ int week_report(ListNode *treat_list, ListNode *risk_list,ListNode *waiting, Lis
     outfile << "---------------------------" << endl;
     outfile.close();
 
-    List_report(*treat_list,name); // NEED FUNCTION
+    List_report(treat_list,name); // NEED FUNCTION
 
     outfile.open(name,ios::app);
     outfile << "---------------------------" << endl;
@@ -144,7 +142,7 @@ int week_report(ListNode *treat_list, ListNode *risk_list,ListNode *waiting, Lis
     outfile << endl;    
     outfile << "---------------------------" << endl;
     outfile.close();
-    List_report(*waiting,name); // NEED FUNCTION
+    List_report(waiting,name); // NEED FUNCTION
 
     outfile.open(name, ios::app);
     outfile << " ------------------------------------------------------------------------------------------ " << endl;
@@ -155,7 +153,7 @@ int week_report(ListNode *treat_list, ListNode *risk_list,ListNode *waiting, Lis
     outfile << endl;
     outfile.close();
 
-    List_report(*left_list, name);  // NEED FUNCTION 
+    List_report(left_list, name);  // NEED FUNCTION 
 
 
     outfile.open(name, ios::app);
@@ -281,7 +279,7 @@ void List_report(ListNode &List, string file_name){
     
     int capacity = List.getCapacity();
     time_t birth = List.getRecordBirth();
-    string birth = DatetimeToString(birth);
+    string birthday = DatetimeToString(birth);
 
     int profession = List.getRecordProfession();
     string P = genProfRome(profession);
@@ -303,18 +301,19 @@ void List_report(ListNode &List, string file_name){
     outfile << "   WeChat: " << wechat << endl;
     outfile << "   email: " << email << endl;
     outfile << "   profession: " << P << endl;
-    outfile << "   birthday: " << birth << endl;
+    outfile << "   birthday: " << birthday << endl;
     outfile << "   treat status: " << "WRONG" << endl;
     outfile <<endl;
     }     
 }
 
 
-
+/*
 void Hospital_report(FibHeap Fib1, ListNode* Hospital){
 // Useless, for future development
 
 }
+*/
 
 int    name_sort(ListNode &treat_list, ListNode &risk_list,ListNode &waiting, ListNode left_list){
     // TODO
@@ -331,7 +330,7 @@ int    profession_sort(ListNode &treat_list, ListNode &risk_list,ListNode &waiti
 
 int main(){
     FibHeap H;
-   
+    
 
   
 
