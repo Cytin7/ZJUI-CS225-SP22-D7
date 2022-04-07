@@ -90,33 +90,19 @@ void ListNode::append(ListNode* new_node)
 void ListNode::deleteNode()
 {
 	if (this->is_dummy) {
-		cout << "You are about to delete the whole list. Confirm the operation? [Y/n]" << endl;
-		int ch;
-		while (true) {
-			if (_kbhit()) {
-				ch = _getch();
-				cout << ch;
-				// get the input key and check
-				if ((ch == 89) || (ch == 100)) {
-					// if input "Y" or press Enter
-					ListNode* node = this->forward;
-					while (!node->is_dummy) {
-						node = node->forward;
-						node->backward->deleteNode();
-					}
-					delete[] this;
-				}
-				else {
-					break;
-				}
-			}
+
+		ListNode* node = this->forward;
+		while (!node->is_dummy) {
+			node = node->forward;
+			node->backward->deleteNode();
 		}
+		delete[] this;
 	}
 	else {
 		delete[] this;
 	}
 }
-void ListNode::deleteNode(ListNode* node) 
+void ListNode::deleteNode(ListNode* node)
 {
 	this->length = this->length - 1;
 	node->backward->forward = node->forward;

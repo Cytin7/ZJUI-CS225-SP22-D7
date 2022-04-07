@@ -2,6 +2,7 @@
 #include <fstream>
 
 
+
 int main() {
 	// record the current date for comparation
 	//int current_year;
@@ -31,6 +32,20 @@ int main() {
 	ListNode Reg1;
 	ListNode Reg2;
 	ListNode Reg3;
+	Reg1.setDummy();
+	Reg2.setDummy();
+	Reg3.setDummy();
+	Reg1.setCapacity(5);
+	Reg2.setCapacity(5);
+	Reg3.setCapacity(5);
+
+	// Hospitals
+	ListNode Hos1;
+	ListNode Hos2;
+	Hos1.setDummy();
+	Hos2.setDummy();
+	Hos1.setCapacity(7);
+	Hos2.setCapacity(6);
 
 	FibHeap* ddl_heap = new FibHeap;
 	FibHeap* main_heap = new FibHeap;
@@ -38,13 +53,7 @@ int main() {
 	FibHeap* medium_risk_heap = new FibHeap;
 	FibHeap* withdraw_heap = new FibHeap;
 
-	Reg1.setDummy();
-	Reg2.setDummy();
-	Reg3.setDummy();
 
-	Reg1.setCapacity(5);
-	Reg2.setCapacity(5);
-	Reg3.setCapacity(5);
 
 	while (true)
 	{
@@ -152,19 +161,58 @@ int main() {
 			}
 			{
 				// 把中风险和撤回的时间到达的插入到main
-				FibNode* fibnode;
-				fibnode = withdraw_heap->Pop_Min();
-				while (0 >= fibnode->getRecordPriority())
 				{
-
+					// Insert withdraw heap node to main
+					FibNode* fibnode;
+					fibnode = withdraw_heap->Pop_Min();
+					while (NULL != fibnode && 0 >= fibnode->getRecordPriority())
+					{
+						// Copy 2 version of the node
+						FibNode* fib_copy_main;
+						fib_copy_main = fibnode->deepcopy();
+						fib_copy_main->status = 0;
+						FibNode* fib_copy_ddl;
+						fib_copy_ddl = fib_copy_main->deepcopy();
+						fib_copy_ddl->status = 1;
+						// Insert the node to main heaps
+						main_heap->Insert(fib_copy_main);
+						ddl_heap->Insert(fib_copy_ddl);
+						// Remove it from withdraw heap
+						withdraw_heap->remove(fibnode);
+						fibnode = withdraw_heap->Pop_Min();
+					}
+				}
+				{
+					// Insert medium risk heap node to main
+					FibNode* fibnode;
+					fibnode = medium_risk_heap->Pop_Min();
+					while (NULL != fibnode && 0 >= fibnode->getRecordPriority())
+					{
+						// Copy 2 version of the node
+						FibNode* fib_copy_main;
+						fib_copy_main = fibnode->deepcopy();
+						fib_copy_main->status = 0;
+						FibNode* fib_copy_ddl;
+						fib_copy_ddl = fib_copy_main->deepcopy();
+						fib_copy_ddl->status = 1;
+						// Insert the node to main heaps
+						main_heap->Insert(fib_copy_main);
+						ddl_heap->Insert(fib_copy_ddl);
+						// Remove it from withdraw heap
+						medium_risk_heap->remove(fibnode);
+						fibnode = medium_risk_heap->Pop_Min();
+					}
 				}
 			}
 			{
 				// Heap send data to hospitals
-
+				// Get hospital total capacity
+				int hos_cap;
+				hos_cap = Hos1.getCapacity() + Hos2.getCapacity();
+				// Pop people from the heaps
 				FibNode* fibnode;
-				fibnode = main_heap->Pop_Min();
-				while (0 >= fibnode->getRecordPriority()) {
+				fibnode = ddl_heap->Pop_Min();
+				while (fibnode->getRecordDeadline() > current_time) {
 
 				}
 				int id = fibnode->getRecordID();
