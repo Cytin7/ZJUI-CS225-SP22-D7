@@ -6,7 +6,7 @@
 int main() {
 	// record the current date for comparation
 	//int current_year;
-	int current_month;
+	int month;
 	//int current_day;
 
 	// store the number input
@@ -14,13 +14,17 @@ int main() {
 	int input_key2 = -1;    // seb page key input
 
 	//current_year = gmtime(&current_time)->tm_year;
-	current_month = gmtime(&current_time)->tm_mon;
+	month = gmtime(&current_time)->tm_mon;
 	//current_year = gmtime(&current_time)->tm_year;
 
 	//PNode<ListNode> registry_list;
 	//registry_list.set_dummy();
 
-	// Input file for registries
+	// Input file directories for registries
+	string filedir1 = "./Data/INPUT_00.csv";
+	string filedir2 = "./Data/INPUT_01.csv";
+	string filedir3 = "./Data/INPUT_02.csv";
+
 	fstream myfile1;
 	myfile1.open("./Data/INPUT_00.csv");
 	fstream myfile2;
@@ -114,8 +118,100 @@ int main() {
 			}
 			{
 				// read files
+				string str; // temp variable for storing input string
 
+				for (int i = 0; i < Reg1.getCapacity();i++) {
+					if (myfile1.eof()) {
+						cout << "File EOF: All input are already read." << endl;
+					}
+					//number是行数
+					getline(myfile1, str);
+					string* line = split(str);
+					ListNode NEW;
+					int ID = atoll(line[0].c_str());
+					int profession = atoll(line[6].c_str());
+					int risk = atoll(line[8].c_str());
 
+					int month = atoll((get_birth(line[7])[0].c_str()));
+					int day = atoll((get_birth(line[7])[1].c_str()));
+					int year = atoll((get_birth(line[7])[2].c_str()));
+
+					int birth = tm2time(month, day, year);
+
+					NEW.setRecordID(ID);
+					NEW.setRecordName(line[1]);
+					NEW.setRecordAddress(line[2]);
+					NEW.setRecordPhone(line[3]);
+					NEW.setRecordWeChat(line[4]);
+					NEW.setRecordEmail(line[5]);
+					NEW.setRecordProfession(profession);
+					NEW.setRecordBirth(birth);
+					NEW.setRecordRisk(risk);
+
+					Reg1.append(&NEW);
+				}
+
+				for (int i = 0; i < Reg2.getCapacity(); i++) {
+					if (myfile2.eof()) {
+						cout << "File EOF: All input are already read." << endl;
+					}
+					//number是行数
+					getline(myfile2, str);
+					string* line = split(str);
+					ListNode NEW;
+					int ID = atoll(line[0].c_str());
+					int profession = atoll(line[6].c_str());
+					int risk = atoll(line[8].c_str());
+
+					int month = atoll((get_birth(line[7])[0].c_str()));
+					int day = atoll((get_birth(line[7])[1].c_str()));
+					int year = atoll((get_birth(line[7])[2].c_str()));
+
+					int birth = tm2time(month, day, year);
+
+					NEW.setRecordID(ID);
+					NEW.setRecordName(line[1]);
+					NEW.setRecordAddress(line[2]);
+					NEW.setRecordPhone(line[3]);
+					NEW.setRecordWeChat(line[4]);
+					NEW.setRecordEmail(line[5]);
+					NEW.setRecordProfession(profession);
+					NEW.setRecordBirth(birth);
+					NEW.setRecordRisk(risk);
+
+					Reg2.append(&NEW);
+				}
+
+				for (int i = 0; i < Reg3.getCapacity(); i++) {
+					if (myfile3.eof()) {
+						cout << "File EOF: All input are already read." << endl;
+					}
+					//number是行数
+					getline(myfile3, str);
+					string* line = split(str);
+					ListNode NEW;
+					int ID = atoll(line[0].c_str());
+					int profession = atoll(line[6].c_str());
+					int risk = atoll(line[8].c_str());
+
+					int month = atoll((get_birth(line[7])[0].c_str()));
+					int day = atoll((get_birth(line[7])[1].c_str()));
+					int year = atoll((get_birth(line[7])[2].c_str()));
+
+					int birth = tm2time(month, day, year);
+
+					NEW.setRecordID(ID);
+					NEW.setRecordName(line[1]);
+					NEW.setRecordAddress(line[2]);
+					NEW.setRecordPhone(line[3]);
+					NEW.setRecordWeChat(line[4]);
+					NEW.setRecordEmail(line[5]);
+					NEW.setRecordProfession(profession);
+					NEW.setRecordBirth(birth);
+					NEW.setRecordRisk(risk);
+
+					Reg3.append(&NEW);
+				}
 
 			}
 
@@ -124,10 +220,10 @@ int main() {
 			{
 				// Send records from registries to heaps
 				// Send Reg1:
-				ListNode* node = &Reg1;
-				while (!node->getForward()->isDummy())
+				ListNode* node = Reg1.getForward();
+				while (!node->isDummy())
 				{
-					node = node->getForward();
+
 					FibNode new_fibnode;
 					new_fibnode.setRecordData(
 						node->getRecordID(), node->getRecordName(), node->getRecordAddress(), node->getRecordPhone(), node->getRecordWeChat(),
@@ -157,6 +253,7 @@ int main() {
 						ddl_heap->Insert(&new_fibnode2);
 
 					}
+					node = node->getForward();
 				}
 			}
 			{
@@ -216,20 +313,23 @@ int main() {
 
 				}
 				int id = fibnode->getRecordID();
-				main_heap->remove(main_heap->idsearch(id));
+				main_heap->remove(main_heap->idsearch(main_heap->getMin(), id));
 			}
 
 			// Part 3
+
 			if (0 == gmtime(&current_time)->tm_wday)
 			{
 				// 在这里执行周报输出操作
+
 			}
-			if (current_month != gmtime(&current_time)->tm_mon)
+			if (month != gmtime(&current_time)->tm_mon)
 			{
 				// update current month for calculate
-				current_month = gmtime(&current_time)->tm_mon;
+				month = gmtime(&current_time)->tm_mon;
 				// 在这里执行月报输出操作
 			}
+
 		}
 		default:
 			break;

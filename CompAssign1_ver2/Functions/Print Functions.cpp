@@ -1,6 +1,6 @@
 #include "../head.h"
 
-string genProfRome(const int& prof)
+string genProfRome(const int prof)
 {
 	switch (prof)
 	{

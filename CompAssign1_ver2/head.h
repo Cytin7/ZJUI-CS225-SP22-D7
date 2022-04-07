@@ -1,9 +1,12 @@
 #pragma once
+#include <iostream>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <ctime>
 #include <conio.h>
+
+#include<windows.h> // For better report performance
 using namespace std;
 
 // global variables
@@ -16,10 +19,19 @@ tm time_diff(time_t* time1, time_t* time2); // calculate time difference
 
 time_t tm2time(int month, int day, int year, int hour = 0, int minute = 0, int second = 0);    // transform date by month day year to time stamp.
 // Print Functions
-string genProfRome(const int& prof);        // generate Rome format of profession data
+string genProfRome(const int prof);        // generate Rome format of profession data
 int PrintMainPage();					    // print main menu
 int PrintRegistrySetupPage();				// print registry sub menu
 int PrintHospitalSetupPage();				// print hospital sub menu
+
+
+// Input Functions
+// Detail information in LOADFILE.cpp
+int CountLines(char* filename);
+string ReadLine(char* filename, int line);
+string* split(string i);
+string* get_birth(string i);
+int LoadList(string filename, ListNode* List);
 
 
 
@@ -194,6 +206,7 @@ public:
 	// 计算优先级的值
 	int get_priority_number();
 	void calc_priority_number();
+	void set_priority_number(int a);
 	int getdegree();
 	// The degree of the node
 	int degree;
@@ -212,6 +225,10 @@ private:
 public:
 	int status;   // in which heap the node is in
 	FibNode* deepcopy();   // Added by CYTIN, deepcopy the node and return a pointer.
+
+// Added because of debugging
+public:
+	void priority_change();
 };
 
 //
@@ -238,11 +255,12 @@ public:
 	// 移除斐波那契堆中的最小节点
 	void removeMin();
 	// 将other合并到当前堆中
-	void combine(FibHeap* other);
-	// 将斐波那契堆中的node更新为newkey
-	void update(FibNode* node);
-	// 更新斐波那契堆的节点node的键值为key
-	void update(int id);
+	/*
+	 * // 将other合并到当前堆中
+	 * void combine(FibHeap* other);
+	 */
+	 // 将斐波那契堆中的node更新为newkey
+	void update(FibNode* node, int temp);
 	// 删除结点node
 	void remove(FibNode* node);
 	// 打印斐波那契堆!
@@ -255,6 +273,7 @@ public:
 	// concat all the trees that has the same degree until
 	// there is no trees have the same degree.
 	FibNode* Pop_Min();
+	FibNode* extractMin();
 	/*
 	 * These Three are the operation to
 	 * consolidate the trees that have
@@ -274,7 +293,8 @@ public:
 	// 将斐波那契堆中节点node的值增加为key
 	void increase(FibNode* node, int key);
 	// 遍历查找键值为key的节点
-	FibNode* idsearch(int id);
+	FibNode* idsearch(FibNode* root, int id);
+	FibNode* getMin();
 private:
 	// 销毁斐波那契堆
 	void destroyNode(FibNode* node);
