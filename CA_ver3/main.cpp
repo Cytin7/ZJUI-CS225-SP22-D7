@@ -1,9 +1,19 @@
-#include "head.h"
-#include <fstream>
-
-
+// Include all head files
+#include "time/time.h"
+#include "Time Functions/Time Functions.h"
+#include "Record/Record.h"
+#include "ListNode/ListNode.h"
+#include "FibNode/FibNode.h"
+#include "FibHeap/FibHeap.h"
+#include "Application/Application.h"
+#include "modify/modify.h"
+#include "withdraw/withdraw.h"
+#include "Print Functions/Print Functions.h"
+#include "LOADFILE/LOADFILE.h"
+#include "Report/Report.h"
 
 int main() {
+	const time_t HALF_DAY = 43200;
 
 	time_t current_time = time(NULL);           // initialize the date to current time when program starts
 	tm current_tm;
@@ -156,7 +166,7 @@ int main() {
 					NEW.setRecordWeChat(line[4]);
 					NEW.setRecordEmail(line[5]);
 					NEW.setRecordProfession(profession);
-					NEW.setRecordBirth(birth);
+					NEW.setRecordBirth(birth,current_time);
 					NEW.setRecordRisk(risk);
 
 					Reg1.append(&NEW);
@@ -187,7 +197,7 @@ int main() {
 					NEW.setRecordWeChat(line[4]);
 					NEW.setRecordEmail(line[5]);
 					NEW.setRecordProfession(profession);
-					NEW.setRecordBirth(birth);
+					NEW.setRecordBirth(birth,current_time);
 					NEW.setRecordRisk(risk);
 
 					Reg2.append(&NEW);
@@ -218,7 +228,7 @@ int main() {
 					NEW.setRecordWeChat(line[4]);
 					NEW.setRecordEmail(line[5]);
 					NEW.setRecordProfession(profession);
-					NEW.setRecordBirth(birth);
+					NEW.setRecordBirth(birth,current_time);
 					NEW.setRecordRisk(risk);
 
 					Reg3.append(&NEW);
@@ -238,7 +248,7 @@ int main() {
 					FibNode new_fibnode;
 					new_fibnode.setRecordData(
 						node->getRecordID(), node->getRecordName(), node->getRecordAddress(), node->getRecordPhone(), node->getRecordWeChat(),
-						node->getRecordEmail(), node->getRecordBirth(), node->getRecordProfession(), node->getRecordRisk(), node->getRecordRegistry()
+						node->getRecordEmail(), node->getRecordBirth(), node->getRecordProfession(), node->getRecordRisk(), node->getRecordRegistry(), current_time
 					);
 					if (2 == node->getRecordRisk()) {
 						// ÖÐ·çÏÕ´úÂë
@@ -258,7 +268,7 @@ int main() {
 						FibNode new_fibnode2;
 						new_fibnode2.setRecordData(
 							node->getRecordID(), node->getRecordName(), node->getRecordAddress(), node->getRecordPhone(), node->getRecordWeChat(),
-							node->getRecordEmail(), node->getRecordBirth(), node->getRecordProfession(), node->getRecordRisk(), node->getRecordRegistry()
+							node->getRecordEmail(), node->getRecordBirth(), node->getRecordProfession(), node->getRecordRisk(), node->getRecordRegistry(),current_time
 						);
 						new_fibnode2.status = 1;
 						ddl_heap->Insert(&new_fibnode2);
@@ -324,7 +334,7 @@ int main() {
 				while (fibnode != NULL && fibnode->get_priority_number() <= current_tm.tm_mon * 100 + current_tm.tm_mday && counter < hos_cap) {
 					counter += 1;
 					ListNode new_hos_record;
-					new_hos_record.setRecordData(fibnode->getRecordID(), fibnode->getRecordName(), fibnode->getRecordAddress(), fibnode->getRecordPhone(), fibnode->getRecordWeChat(), fibnode->getRecordEmail(), fibnode->getRecordBirth(), fibnode->getRecordProfession(), fibnode->getRecordRisk(), fibnode->getRecordRegistry());
+					new_hos_record.setRecordData(fibnode->getRecordID(), fibnode->getRecordName(), fibnode->getRecordAddress(), fibnode->getRecordPhone(), fibnode->getRecordWeChat(), fibnode->getRecordEmail(), fibnode->getRecordBirth(), fibnode->getRecordProfession(), fibnode->getRecordRisk(), fibnode->getRecordRegistry(), current_time);
 					if (counter < Hos1.getCapacity()) {
 						new_hos_record.setRecordHospital(1);
 						Hos1.append(&new_hos_record);
@@ -341,7 +351,7 @@ int main() {
 					while (counter < hos_cap && main_heap->getMin() != NULL) {
 						counter += 1;
 						ListNode new_hos_record;
-						new_hos_record.setRecordData(fibnode->getRecordID(), fibnode->getRecordName(), fibnode->getRecordAddress(), fibnode->getRecordPhone(), fibnode->getRecordWeChat(), fibnode->getRecordEmail(), fibnode->getRecordBirth(), fibnode->getRecordProfession(), fibnode->getRecordRisk(), fibnode->getRecordRegistry());
+						new_hos_record.setRecordData(fibnode->getRecordID(), fibnode->getRecordName(), fibnode->getRecordAddress(), fibnode->getRecordPhone(), fibnode->getRecordWeChat(), fibnode->getRecordEmail(), fibnode->getRecordBirth(), fibnode->getRecordProfession(), fibnode->getRecordRisk(), fibnode->getRecordRegistry(), current_time);
 						if (counter < Hos1.getCapacity()) {
 							new_hos_record.setRecordHospital(1);
 							Hos1.append(&new_hos_record);
@@ -359,7 +369,7 @@ int main() {
 					while (counter < hos_cap && high_risk_heap->getMin() != NULL) {
 						counter += 1;
 						ListNode new_hos_record;
-						new_hos_record.setRecordData(fibnode->getRecordID(), fibnode->getRecordName(), fibnode->getRecordAddress(), fibnode->getRecordPhone(), fibnode->getRecordWeChat(), fibnode->getRecordEmail(), fibnode->getRecordBirth(), fibnode->getRecordProfession(), fibnode->getRecordRisk(), fibnode->getRecordRegistry());
+						new_hos_record.setRecordData(fibnode->getRecordID(), fibnode->getRecordName(), fibnode->getRecordAddress(), fibnode->getRecordPhone(), fibnode->getRecordWeChat(), fibnode->getRecordEmail(), fibnode->getRecordBirth(), fibnode->getRecordProfession(), fibnode->getRecordRisk(), fibnode->getRecordRegistry(), current_time);
 						if (counter < Hos1.getCapacity()) {
 							new_hos_record.setRecordHospital(1);
 							Hos1.append(&new_hos_record);

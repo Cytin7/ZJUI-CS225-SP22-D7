@@ -1,4 +1,4 @@
-#include "../head.h"
+#include "Record.h"
 
 // construct functon of class Record
 Record::Record()
@@ -28,7 +28,7 @@ Record::~Record()
 
 }
 
-void Record::setRecordData(int id, string name, string address, string phone, string wechat, string email, time_t birth, int profession, int risk, int registry)
+void Record::setRecordData(int id, string name, string address, string phone, string wechat, string email, time_t birth, int profession, int risk, int registry,time_t current_time)
 {
 	setRecordID(id);
 	setRecordName(name);
@@ -36,7 +36,7 @@ void Record::setRecordData(int id, string name, string address, string phone, st
 	setRecordPhone(phone);
 	setRecordWeChat(wechat);
 	setRecordEmail(email);
-	setRecordBirth(birth);
+	setRecordBirth(birth,current_time);
 	setRecordProfession(profession);
 	setRecordRisk(risk);
 	setRecordRegistry(registry);
@@ -67,7 +67,7 @@ void Record::setRecordEmail(string email)
 {
 	this->email = email;
 }
-void Record::setRecordBirth(time_t birth)
+void Record::setRecordBirth(time_t birth,time_t current_time)
 {
 	this->birth = birth;
 	this->age = time_diff(&current_time, &this->birth).tm_year;
