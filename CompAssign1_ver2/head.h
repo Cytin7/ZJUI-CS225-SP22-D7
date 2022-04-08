@@ -1,4 +1,5 @@
-#pragma once
+#if !defined(HEAD_H)
+#define HEAD_H
 #include <iostream>
 #include <fstream>
 #include <iostream>
@@ -12,27 +13,6 @@ using namespace std;
 // global variables
 time_t current_time = time(NULL);           // initialize the date to current time when program starts
 const time_t HALF_DAY = 43200;              // half day is 43200 seconds
-
-// functions that will be used
-// Time Functions
-tm time_diff(time_t* time1, time_t* time2); // calculate time difference
-
-time_t tm2time(int month, int day, int year, int hour = 0, int minute = 0, int second = 0);    // transform date by month day year to time stamp.
-// Print Functions
-string genProfRome(const int prof);        // generate Rome format of profession data
-int PrintMainPage();					    // print main menu
-int PrintRegistrySetupPage();				// print registry sub menu
-int PrintHospitalSetupPage();				// print hospital sub menu
-
-
-// Input Functions
-// Detail information in LOADFILE.cpp
-int CountLines(char* filename);
-string ReadLine(char* filename, int line);
-string* split(string i);
-string* get_birth(string i);
-int LoadList(string filename, ListNode* List);
-
 
 
 /* ---------------------------------------
@@ -343,5 +323,25 @@ class Registry :public PNode<ListNode>
 	fstream* input_file;
 
 };
+// functions that will be used
+// Time Functions
+extern tm time_diff(time_t* time1, time_t* time2); // calculate time difference
+
+extern time_t tm2time(int month, int day, int year, int hour = 0, int minute = 0, int second = 0);    // transform date by month day year to time stamp.
+// Print Functions
+extern string genProfRome(const int prof);        // generate Rome format of profession data
+extern int PrintMainPage();					    // print main menu
+extern int PrintRegistrySetupPage();				// print registry sub menu
+extern int PrintHospitalSetupPage();				// print hospital sub menu
 
 
+// Input Functions
+// Detail information in LOADFILE.cpp
+extern int CountLines(char* filename);
+extern string ReadLine(char* filename, int line);
+extern string* split(string i);
+extern string* get_birth(string i);
+extern int LoadList(string filename, ListNode* List);
+
+
+#endif // HEAD_H
