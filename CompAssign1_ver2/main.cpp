@@ -4,6 +4,9 @@
 
 
 int main() {
+
+	time_t current_time = time(NULL);           // initialize the date to current time when program starts
+
 	// record the current date for comparation
 	//int current_year;
 	int month;
@@ -13,9 +16,11 @@ int main() {
 	int input_key = -1;     // main page key input
 	int input_key2 = -1;    // seb page key input
 
-	//current_year = gmtime(&current_time)->tm_year;
-	month = gmtime(&current_time)->tm_mon;
-	//current_year = gmtime(&current_time)->tm_year;
+	//current_year = gmtime_s(&current_time)->tm_year;
+	tm tmp;
+	gmtime_s(&tmp, &current_time);
+	month = tmp.tm_mon;
+	//current_year = gmtime_s(&current_time)->tm_year;
 
 	//PNode<ListNode> registry_list;
 	//registry_list.set_dummy();
@@ -120,7 +125,7 @@ int main() {
 				// read files
 				string str; // temp variable for storing input string
 
-				for (int i = 0; i < Reg1.getCapacity();i++) {
+				for (int i = 0; i < Reg1.getCapacity(); i++) {
 					if (myfile1.eof()) {
 						cout << "File EOF: All input are already read." << endl;
 					}
@@ -309,7 +314,8 @@ int main() {
 				// Pop people from the heaps
 				FibNode* fibnode;
 				fibnode = ddl_heap->Pop_Min();
-				while (fibnode->getRecordDeadline() > current_time) {
+				int counter = 0;
+				while (fibnode->getRecordDeadline() > current_time && counter<hos_cap) {
 
 				}
 				int id = fibnode->getRecordID();
@@ -317,16 +323,17 @@ int main() {
 			}
 
 			// Part 3
-
-			if (0 == gmtime(&current_time)->tm_wday)
+			tm current_tm;
+			gmtime_s(&current_tm, &current_time);
+			if (0 == current_tm.tm_wday)
 			{
 				// 在这里执行周报输出操作
 
 			}
-			if (month != gmtime(&current_time)->tm_mon)
+			if (month != current_tm.tm_mon)
 			{
 				// update current month for calculate
-				month = gmtime(&current_time)->tm_mon;
+				month = current_tm.tm_mon;
 				// 在这里执行月报输出操作
 			}
 

@@ -15,23 +15,23 @@ void withdraw_operation(int withdraw_id, FibHeap* ddl_heap, FibHeap* main_heap, 
 //2. the node is in main/ddl heap (move it into withdraw heap);
 //ATTENTION: the change of status has been executed in function withdraw(...)
 {
-    FibNode* withdraw_node1 = ddl_heap->idsearch(withdraw_id);
-    FibNode* withdraw_node2 = main_heap->idsearch(withdraw_id);
-    if (withdraw_node1 == NULL && withdraw_node2 == NULL)  //1. does not find the node in main heap (ddl heap)
-    {
-        cout<<"There is no such patient with identification "<<withdraw_id<<" in main heaps. \n";
-        return;
-    }//2. the node is in the main and ddl heap, we withdraw it separately and move one into withdraw heap
-    else if (withdraw_node1 != NULL && withdraw_node2 != NULL)
-    {
-        ddl_heap->remove(withdraw_node1);
-        main_heap->remove(withdraw_node2);
-        withdraw_heap->Insert(withdraw_node1);
-        cout<<"Withdraw the patient with identification "<<withdraw_id<<" successfully.\n";
-        return;
-    }
-    else
-    {
-        cout<<"WRONG PRECESS!!!\n";
-    }
+	FibNode* withdraw_node1 = ddl_heap->idsearch(ddl_heap->getMin(), withdraw_id);
+	FibNode* withdraw_node2 = main_heap->idsearch(withdraw_heap->getMin(), withdraw_id);
+	if (withdraw_node1 == NULL && withdraw_node2 == NULL)  //1. does not find the node in main heap (ddl heap)
+	{
+		cout << "There is no such patient with identification " << withdraw_id << " in main heaps. \n";
+		return;
+	}//2. the node is in the main and ddl heap, we withdraw it separately and move one into withdraw heap
+	else if (withdraw_node1 != NULL && withdraw_node2 != NULL)
+	{
+		ddl_heap->remove(withdraw_node1);
+		main_heap->remove(withdraw_node2);
+		withdraw_heap->Insert(withdraw_node1);
+		cout << "Withdraw the patient with identification " << withdraw_id << " successfully.\n";
+		return;
+	}
+	else
+	{
+		cout << "WRONG PRECESS!!!\n";
+	}
 }

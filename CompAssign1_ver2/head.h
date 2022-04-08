@@ -1,5 +1,5 @@
-#if !defined(HEAD_H)
-#define HEAD_H
+#pragma once
+
 #include <iostream>
 #include <fstream>
 #include <iostream>
@@ -10,8 +10,9 @@
 #include<windows.h> // For better report performance
 using namespace std;
 
+extern time_t current_time;
+
 // global variables
-time_t current_time = time(NULL);           // initialize the date to current time when program starts
 const time_t HALF_DAY = 43200;              // half day is 43200 seconds
 
 
@@ -246,7 +247,7 @@ public:
 	// 打印斐波那契堆!
 	void print();
 	// 销毁
-	void destroy();
+	//void destroy();
 
 	// Operation to pop out the min node.
 	// Directly to connect the min-node's sub-tree in to root list.
@@ -277,7 +278,7 @@ public:
 	FibNode* getMin();
 private:
 	// 销毁斐波那契堆
-	void destroyNode(FibNode* node);
+	//void destroyNode(FibNode* node);
 	// 打印斐波那契堆
 	void print(FibNode* node, FibNode* prev, int direction);
 	// some characters.
@@ -285,6 +286,12 @@ private:
 	int maxDegree;
 	FibNode* min;
 	FibNode** cons;
+
+	// Peidong
+public:
+	bool withdraw(FibNode* withdraw_node, FibHeap* main_heap1, FibHeap* main_heap2, FibHeap* withdraw_heap);
+	bool modify(FibNode* modified_node, int information_type, int new_information, FibHeap* main_heap1, FibHeap* main_heap2, FibHeap* medium_risk_heap, FibHeap* high_risk_heap, FibHeap* withdraw_heap);
+	FibNode* find_node(int id, FibHeap* main_heap, FibHeap* medium_risk_heap, FibHeap* high_risk_heap, FibHeap* withdraw_heap);
 };
 
 /* ---------------------------------------
@@ -343,5 +350,10 @@ extern string* split(string i);
 extern string* get_birth(string i);
 extern int LoadList(string filename, ListNode* List);
 
+// Peidong
+bool modify_for_medium_risk(FibNode* node_medium, int information_type, int new_information, FibHeap* ddl_heap, FibHeap* main_heap, FibHeap* high_risk_heap);
+bool modify_for_main_and_ddl(FibNode* node_ddl, FibNode* node_main, int information_type, int new_information, FibHeap* ddl_heap, FibHeap* main_heap, FibHeap* medium_risk_heap, FibHeap* high_risk_heap);
+bool modify_for_high_risk(FibNode* node_high, int information_type, int new_information, FibHeap* ddl_heap, FibHeap* main_heap, FibHeap* medium_risk_heap);
+bool modify_for_withdraw(FibNode* node_withdraw, int information_type, int new_information);
 
-#endif // HEAD_H
+

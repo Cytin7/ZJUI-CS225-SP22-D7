@@ -114,18 +114,46 @@ int FibNode::getdegree() {
 // Created By Peidong Yang.
 // ***********************************
 //
+
 void FibNode::calc_priority_number()
-//The most important criterion is the profession category followed by a ranking of age groups,
-//and further followed by data and time of the registration.
-//priority_number is an integer
-//position:    6           5         4 3     2 1
-//meaning:profession   age_group    month    day
+//for different kinds of heaps (status 0-4), we need to give different priority numbers
+//0 - main_heap: 
+//    The most important criterion is the profession category followed by a ranking of age groups,
+//    and further followed by data and time of the registration.
+//    priority_number is an integer 
+//    position:    6           5         4 3     2 1
+//    meaning:profession   age_group    month    day
+//1 - ddl_heap: use deadline
+//2 - medium_risk_heap: current time + 1 month(30 days in second)
+//3 - high_risk_heap: current time
+//4 - withdraw_heap: current time + 14 days(in second)
+
 {
-	struct tm* info;
-	info = gmtime(&(this->reg_time));
-	int month = info->tm_mon;
-	int day = info->tm_mday;
-	this->priority_number = (this->profession) * 100000 + (this->age_group) * 10000 + month * 100 + day * 1;
+	if (this->status == 0)
+	{
+		tm tmp;
+		struct tm* info = &tmp;
+		gmtime_s(info,&(this->reg_time));
+		int month = info->tm_mon;
+		int day = info->tm_mday;
+		this->priority_number = (this->profession) * 100000 + (this->age_group) * 10000 + month * 100 + day * 1;
+	}
+	else if (this->status == 1)
+	{
+		this->priority_number = (int)this->deadline;
+	}
+	else if (this->status == 2)
+	{
+		this->priority_number = current_time + 30 * 24 * 60 * 60;
+	}
+	else if (this->status == 3)
+	{
+		this->priority_number = current_time;
+	}
+	else if (this->status == 4)
+	{
+		this->priority_number = current_time + 14 * 24 * 60 * 60;
+	}
 }
 
 //
@@ -280,15 +308,7 @@ void FibHeap::update(FibNode* node, int temp) {
 		cout << "Update Error: No need to update." << endl;
 	}
 }
-// 删除结点node
-void FibHeap::remove(FibNode* node) {
-	int temp = node->get_priority_number();
-	node->priority_change();
-	update(node, temp);
-	removeMin();
-	node->set_priority_number(temp);
-	return;
-}
+
 // Print out to display the FibHeap.
 void FibHeap::print() {
 	int i = 0;
@@ -308,11 +328,11 @@ void FibHeap::print() {
 	cout << endl;
 	return;
 }
-// Destroy the FibHeap.
-void FibHeap::destroy() {
-	destroyNode(min);
-	free(cons);
-}
+//// Destroy the FibHeap.
+//void FibHeap::destroy() {
+//	destroyNode(min);
+//	free(cons);
+//}
 
 
 // Operation to pop out the min node.
@@ -545,7 +565,7 @@ void FibHeap::remove(FibNode* node) {
 	update(node, temp);
 	removeMin();
 	node->set_priority_number(temp);
-		return;
+	return;
 }
 // 销毁斐波那契堆
 /*
