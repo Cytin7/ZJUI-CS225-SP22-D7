@@ -40,7 +40,7 @@ bool major_prior(FibNode* node1, FibNode* node2)
  *   compare two node for priority
  * in ddl heap;
  *==================================*/
-bool major_prior(FibNode* node1, FibNode* node2)
+bool ddl_prior(FibNode* node1, FibNode* node2)
 {
 	Record r1 = *(*node1).getRecord();
 	Record r2 = *(*node2).getRecord();

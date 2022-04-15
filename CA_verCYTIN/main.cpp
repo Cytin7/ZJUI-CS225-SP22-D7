@@ -14,7 +14,7 @@
 using namespace std;
 
 // Set number of registries
-#define registry_number 5
+#define registry_number 7
 
 
 
@@ -90,6 +90,7 @@ int main() {
 						(*reg).getList()->append(node);
 					}
 				}
+				(*reg).printAllRecords();
 				reg = (*reg).getForward();
 			}
 			break;

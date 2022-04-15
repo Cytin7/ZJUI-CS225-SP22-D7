@@ -299,7 +299,7 @@ FibNode* FibHeap::delete_node(int id, bool fc(FibNode*, FibNode*))
 {
 	FibNode* node = (*(*this).min).idsearch(id);
 	if (NULL == node) {
-		return;
+		return NULL;
 	}
 	{
 		(*(*node).getChild()).setParent(NULL);

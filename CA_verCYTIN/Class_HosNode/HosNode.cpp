@@ -10,7 +10,7 @@ HosNode::HosNode()
 	this->list = NULL;
 	this->all_read = false;
 	this->file = NULL;
-	this->capacity = 0;
+	this->capacity = 7;
 	this->length = 0;
 }
 
