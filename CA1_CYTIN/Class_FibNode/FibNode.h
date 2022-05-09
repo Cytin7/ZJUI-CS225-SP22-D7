@@ -55,7 +55,7 @@ public:
 	void append(FibNode* node);
 	void addChild(FibNode* root);
 	void concat(FibNode* root);
-	void removeTree(FibNode* root);
+	//void removeTree(FibNode* root);
 	FibNode* idsearch(int id);
 	int updateDegree();
 	FibNode* copy();

@@ -31,7 +31,7 @@ int main() {
 	//// program time step
 	//const time_t HALF_DAY = 43200;
 	// current time for system simulation
-	time_t current_time = time(NULL);
+	time_t current_time = time(nullptr);
 
 	// Set rand() seed
 	srand((unsigned)current_time);
@@ -223,6 +223,7 @@ int main() {
 				(*reg).printAllRecords();
 				reg = (*reg).getForward();
 			}
+			cout << "主堆num" << main_heap->getNumitems() << endl;
 			// send data to main heap
 			{
 				reg = registries.getForward();
@@ -325,6 +326,8 @@ int main() {
 					break;
 				}
 			}
+
+			cout << "主堆num" << main_heap->getNumitems() << endl;
 			cout << "开始导出数据" << endl;
 			// assign patient to hospitals
 			{
@@ -366,6 +369,7 @@ int main() {
 					}
 					if (counter < cap) {
 						cout << "堆已经空" << endl;
+						cout << "主堆num" << main_heap->getNumitems() << endl;
 					}
 					hos = (*hos).getForward();
 				}

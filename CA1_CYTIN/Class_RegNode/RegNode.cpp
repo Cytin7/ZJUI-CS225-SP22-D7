@@ -3,12 +3,12 @@
 RegNode::RegNode()
 {
 	(*this).index = 0;
-	(*this).forward = NULL;
-	(*this).backward = NULL;
+	(*this).forward = nullptr;
+	(*this).backward = nullptr;
 	(*this).is_dummy = false;
-	(*this).dummy = NULL;
-	(*this).list = NULL;
-	//(*this).file = NULL;
+	(*this).dummy = nullptr;
+	(*this).list = nullptr;
+	//(*this).file = nullptr;
 	(*this).max_read = 0;
 	(*this).min_read = 0;
 	(*this).length = 0;
@@ -84,8 +84,8 @@ RegNode* RegNode::setDummy()
 	(*this).backward = this;
 	(*this).is_dummy = true;
 	(*this).dummy = this;
-	(*this).list = NULL;
-	//(*this).file = NULL;
+	(*this).list = nullptr;
+	//(*this).file = nullptr;
 	(*this).max_read = 0;
 	(*this).min_read = 0;
 	(*this).length = 0;
@@ -101,10 +101,10 @@ RegNode* RegNode::setDummy()
 RegNode* RegNode::setData(int index)//fstream* fileptr)
 {
 	(*this).index = index;
-	(*this).forward = NULL;
-	(*this).backward = NULL;
+	(*this).forward = nullptr;
+	(*this).backward = nullptr;
 	(*this).is_dummy = false;
-	(*this).dummy = NULL;
+	(*this).dummy = nullptr;
 	ListNode* list = new ListNode;
 	(*list).setDummy();
 	(*this).list = list;
@@ -177,7 +177,7 @@ void RegNode::remove()
 	(*(*this).dummy).length -= 1;
 	(*(*this).backward).forward = (*this).forward;
 	(*(*this).forward).backward = (*this).backward;
-	(*this).dummy = NULL;
+	(*this).dummy = nullptr;
 }
 
 /*=================================*
@@ -190,11 +190,11 @@ RegNode* RegNode::remove(RegNode* node)
 {
 	if ((*node).is_dummy) {
 		cerr << "Error: Removing dummy node" << endl;
-		return NULL;
+		return nullptr;
 	}
 	if (this != (*node).dummy) {
 		cerr << "Error: Removing node from irrelevant list" << endl;
-		return NULL;
+		return nullptr;
 	}
 	else {
 		(*node).remove();
@@ -216,7 +216,7 @@ RegNode* RegNode::append(RegNode* new_node)
 		return this;
 	}
 	// check if it is already in a list
-	if (!((*new_node).dummy == NULL)) {
+	if (!((*new_node).dummy == nullptr)) {
 		(*new_node).remove();
 	}
 	if ((*this).is_dummy) {

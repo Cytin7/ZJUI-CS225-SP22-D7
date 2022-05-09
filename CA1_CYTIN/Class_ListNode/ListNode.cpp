@@ -5,34 +5,34 @@ ListNode::ListNode()
 {
 	// Initialize all variables
 	// Linked List
-	(*this).forward = NULL;
-	(*this).backward = NULL;
+	(*this).forward = nullptr;
+	(*this).backward = nullptr;
 	(*this).is_dummy = false;
 	// Data
 	Record* empty_record = new Record;
 	(*this).record = empty_record;
-	(*this).dummy = NULL;
+	(*this).dummy = nullptr;
 	// Dummy
 	(*this).length = 0;
-	(*this).old = NULL;
-	(*this).last_week = NULL;
-	(*this).last_month = NULL;
+	(*this).old = nullptr;
+	(*this).last_week = nullptr;
+	(*this).last_month = nullptr;
 }
 ListNode::ListNode(Record* record)
 {
 	// Initialize all variables
 	// Linked List
-	(*this).forward = NULL;
-	(*this).backward = NULL;
+	(*this).forward = nullptr;
+	(*this).backward = nullptr;
 	(*this).is_dummy = false;
 	// Data
 	(*this).record = record;
-	(*this).dummy = NULL;
+	(*this).dummy = nullptr;
 	// Dummy
 	(*this).length = 0;
-	(*this).old = NULL;
-	(*this).last_week = NULL;
-	(*this).last_month = NULL;
+	(*this).old = nullptr;
+	(*this).last_week = nullptr;
+	(*this).last_month = nullptr;
 }
 // destruct function of class ListNode
 ListNode::~ListNode()
@@ -165,7 +165,7 @@ ListNode* ListNode::setDummy()
 {
 	(*this).is_dummy = true;
 	(*this).length = 0;
-	(*this).record = NULL;
+	(*this).record = nullptr;
 	(*this).forward = this;
 	(*this).backward = this;
 	(*this).dummy = this;
@@ -237,7 +237,7 @@ void ListNode::remove()
 	}
 	(*(*this).backward).forward = (*this).forward;
 	(*(*this).forward).backward = (*this).backward;
-	(*this).dummy = NULL;
+	(*this).dummy = nullptr;
 }
 
 /*=================================*
@@ -250,11 +250,11 @@ ListNode* ListNode::remove(ListNode* node)
 {
 	if ((*node).is_dummy) {
 		cerr << "Error: Removing dummy node" << endl;
-		return NULL;
+		return nullptr;
 	}
 	if (this != (*node).dummy) {
 		cerr << "Error: Removing node from irrelevant list" << endl;
-		return NULL;
+		return nullptr;
 	}
 	else {
 		(*node).remove();
@@ -276,7 +276,7 @@ ListNode* ListNode::append(ListNode* new_node)
 		return this;
 	}
 	// check if it is already in a list
-	if (!((*new_node).dummy == NULL)) {
+	if (!((*new_node).dummy == nullptr)) {
 		(*new_node).remove();
 	}
 	if ((*this).is_dummy) {
@@ -305,7 +305,7 @@ ListNode* ListNode::insert(ListNode* new_node)
 		return this;
 	}
 	// check if it is already in a list
-	if (!((*new_node).dummy == NULL)) {
+	if (!((*new_node).dummy == nullptr)) {
 		(*new_node).remove();
 	}
 	// Add the new node in the list
@@ -325,14 +325,14 @@ ListNode* ListNode::insert(ListNode* new_node)
  *------------------------
  *   Remove the first node from the
  * list. Return its handle. Return
- * NULL if the list is empty.
+ * nullptr if the list is empty.
  *==================================*/
 ListNode* ListNode::pop()
 {
 	ListNode* tmp = (*this).forward;
 	if ((*tmp).is_dummy) {
 		cout << "Warning: Poping from an empty list" << endl;
-		return NULL;
+		return nullptr;
 	}
 	(*tmp).remove();
 	return tmp;
@@ -344,14 +344,14 @@ ListNode* ListNode::pop()
  *-------------------------
  *   Remove the last node from the
  * list. Return its handle. Return
- * NULL if the list is empty.
+ * nullptr if the list is empty.
  *==================================*/
 ListNode* ListNode::drop()
 {
 	ListNode* tmp = (*this).backward;
 	if ((*tmp).is_dummy) {
 		cout << "Warning: Poping from an empty list" << endl;
-		return NULL;
+		return nullptr;
 	}
 	(*tmp).remove();
 	return tmp;
@@ -367,7 +367,7 @@ ListNode* ListNode::find(int index)
 {
 	if (index >= (*(*this).dummy).length) {
 		cerr << "Error: List index out of range" << endl;
-		return NULL;
+		return nullptr;
 	}
 	ListNode* node = (*this).dummy;
 	if (index >= 0) {
@@ -375,7 +375,7 @@ ListNode* ListNode::find(int index)
 			node = (*node).forward;
 			if ((*node).is_dummy) {
 				cerr << "Error: List index out of range" << endl;
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -384,7 +384,7 @@ ListNode* ListNode::find(int index)
 			node = (*node).backward;
 			if ((*node).is_dummy) {
 				cerr << "Error: List index out of range" << endl;
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -406,7 +406,7 @@ ListNode* ListNode::shift(int displace)
 			node = (*node).forward;
 			if ((*node).is_dummy) {
 				cerr << "Error: List index out of range" << endl;
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -415,7 +415,7 @@ ListNode* ListNode::shift(int displace)
 			node = (*node).backward;
 			if ((*node).is_dummy) {
 				cerr << "Error: List index out of range" << endl;
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -440,7 +440,7 @@ ListNode* ListNode::idsearch(int id)
 			}
 		}
 		cout << "Node with given id was not found" << endl;
-		return NULL;
+		return nullptr;
 	}
 	else {
 		return (*(*this).dummy).idsearch(id);

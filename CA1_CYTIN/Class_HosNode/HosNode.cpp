@@ -3,10 +3,10 @@
 // construct functon of class PNode
 HosNode::HosNode()
 {
-	this->forward = NULL;
-	this->backward = NULL;
+	this->forward = nullptr;
+	this->backward = nullptr;
 	this->is_dummy = false;
-	this->dummy = NULL;
+	this->dummy = nullptr;
 	this->index = 0;
 	this->capacity = 7;
 	this->length = 0;
@@ -81,7 +81,7 @@ HosNode* HosNode::setDummy()
 	this->backward = this;
 	this->is_dummy = true;
 	this->dummy = this;
-	this->list = NULL;
+	this->list = nullptr;
 	this->capacity = 0;
 	this->length = 0;
 	return this;
@@ -96,10 +96,10 @@ HosNode* HosNode::setDummy()
 HosNode* HosNode::setData(int index)
 {
 	this->index = index;
-	this->forward = NULL;
-	this->backward = NULL;
+	this->forward = nullptr;
+	this->backward = nullptr;
 	this->is_dummy = false;
-	this->dummy = NULL;
+	this->dummy = nullptr;
 
 	ListNode* list = new ListNode;
 	(*list).setDummy();
@@ -167,7 +167,7 @@ void HosNode::remove()
 	this->dummy->length -= 1;
 	this->backward->forward = this->forward;
 	this->forward->backward = this->backward;
-	this->dummy = NULL;
+	this->dummy = nullptr;
 }
 
 /*=================================*
@@ -180,11 +180,11 @@ HosNode* HosNode::remove(HosNode* node)
 {
 	if (node->is_dummy) {
 		cerr << "Error: Removing dummy node" << endl;
-		return NULL;
+		return nullptr;
 	}
 	if (this != node->dummy) {
 		cerr << "Error: Removing node from irrelevant list" << endl;
-		return NULL;
+		return nullptr;
 	}
 	else {
 		node->remove();
@@ -206,7 +206,7 @@ HosNode* HosNode::append(HosNode* new_node)
 		return this;
 	}
 	// check if it is already in a list
-	if (!(new_node->dummy == NULL)) {
+	if (!(new_node->dummy == nullptr)) {
 		new_node->remove();
 	}
 	if (this->is_dummy) {
