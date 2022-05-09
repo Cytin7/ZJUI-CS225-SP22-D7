@@ -363,11 +363,20 @@ FibNode* FibHeap::delete_node(int id, bool fc(FibNode*, FibNode*))
 
 	// if the node is root node, remove it and return;
 	if (nullptr == (*node).getParent()) {
-		(*(*node).getLeft()).setRight((*node).getRight());
-		(*(*node).getRight()).setLeft((*node).getLeft());
-		(*node).setLeft(nullptr);
-		(*node).setRight(nullptr);
-		(*this).consolidate(fc);
+		if (node == (*this).min) {
+			if (node == (*node).getRight()) {
+				(*this).min = nullptr;
+			}
+			else {
+				(*this).min = (*node).getRight();
+				(*(*node).getLeft()).setRight((*node).getRight());
+				(*(*node).getRight()).setLeft((*node).getLeft());
+				(*this).reset_min(fc);
+				(*this).consolidate(fc);
+			}
+		}
+		(*node).setLeft(node);
+		(*node).setRight(node);
 		return node;
 	}
 	// remove the node from its parent's children list
@@ -381,8 +390,8 @@ FibNode* FibHeap::delete_node(int id, bool fc(FibNode*, FibNode*))
 		(*(*node).getRight()).setLeft((*node).getLeft());
 	}
 
-	(*node).setLeft(nullptr);
-	(*node).setRight(nullptr);
+	(*node).setLeft(node);
+	(*node).setRight(node);
 
 	// test if its parent is marked
 	FibNode* result = node;
@@ -396,11 +405,13 @@ FibNode* FibHeap::delete_node(int id, bool fc(FibNode*, FibNode*))
 		(*node).setParent(nullptr);
 		// Set parent node marked if it is unmarked
 		if (!(*node).getMark()) {
+																									// 移到根节点
 			(*node).setMark(true);
 			break;
 		}
 		// concat its children to root list
 		if (nullptr != (*node).getChild()) {
+																									// 子节点的父指针设为null
 			(*(*this).min).concat((*node).getChild());
 		}
 		// Test its parent

@@ -230,7 +230,6 @@ int FibNode::updateDegree()
 	}
 	else {
 		cout << "\t\t\t发生什么事了AAAA" << endl;
-		(*(*this).child).updateDegree();
 		int counter = 1;
 		FibNode* node = (*(*this).child).right;
 		while (node != (*this).child) {
@@ -240,6 +239,7 @@ int FibNode::updateDegree()
 			node = (*node).right;
 		}
 		(*this).degree = counter;
+		(*(*this).child).updateDegree();
 	}
 	return (*this).degree;
 }
